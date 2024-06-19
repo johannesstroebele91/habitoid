@@ -1,6 +1,6 @@
 # Habit Tracking Application
 
-Habitoid is your go-to tool for tracking your habits effectively. This intuitive application empowers you to seamlessly record your progress for existing habits or add new ones. Built with TypeScript, Next.js, Ant Design, MongoDB Atlas via Mongoose, and React, Upwards offers a responsive, cross-platform user experience tailored to your habit-building journey.
+Habitoid is your go-to tool for tracking your habits effectively. This intuitive application empowers you to seamlessly record your progress for existing habits or add new ones. It offers a responsive, cross-platform user experience tailored to your habit-building journey.
 
 # Features
 
