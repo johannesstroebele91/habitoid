@@ -19,7 +19,7 @@ import {AuthService} from "./services/auth.service";
     <mat-toolbar color="primary">
       <mat-toolbar-row>
         <span style="letter-spacing: 1px">{{ title }}</span>
-        <mat-icon style="margin-left: 5px">alarm</mat-icon>
+        <mat-icon style="margin-left: 5px">event_available</mat-icon>
         <span style="flex: 1 1 auto;"></span>
         <a *ngIf="isNotOnLoginOrRegisterPage() && isAuthenticated" routerLink="/" (click)="logout()"
            style="color: white; text-decoration: none; font-size: 16px">Logout</a>
