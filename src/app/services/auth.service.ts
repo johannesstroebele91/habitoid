@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {ReplaySubject, tap, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {AuthLoginUser, AuthResponseData, AuthUser} from '../shared/models';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {Router} from "@angular/router";
 
 const IDENTITY_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:';

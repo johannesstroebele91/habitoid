@@ -14,7 +14,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {AuthService} from "../services/auth.service";
 import {ERROR_MESSAGE} from "../shared/constants";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
