@@ -39,6 +39,8 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
           </button>
         </div>
 
+        <p>Somehow show progress: color? Not number! Per Day of Week; Graph</p>
+
         <mat-form-field style="width: 100%">
           <mat-label>Name</mat-label>
           <input matInput>
@@ -46,7 +48,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
         <mat-form-field style="width: 100%">
           <mat-label>Description</mat-label>
-          <input matInput>
+          <textarea matInput></textarea>
         </mat-form-field>
 
         <mat-form-field style="width: 100%">
@@ -86,67 +88,6 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
             <mat-option value="two">Difficult</mat-option>
           </mat-select>
         </mat-form-field>
-
-        <mat-form-field style="width: 100%">
-          <mat-label>Orientation</mat-label>
-          <mat-select>
-            <mat-option value="one">Frequency</mat-option>
-            <mat-option value="one">Positive</mat-option>
-            <mat-option value="two">Negative</mat-option>
-            <mat-option value="two">Positive and Negative</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field style="width: 100%">
-          <mat-label>Frequency</mat-label>
-          <mat-select>
-            <mat-option value="one">Everyday</mat-option>
-            <mat-option value="two">Weekly</mat-option>
-            <mat-option value="two">Monthly</mat-option>
-            <mat-option value="two">Custom</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- If "CUSTOM" is chosen for frequency-->
-        <div>
-          <p>Goal:</p>
-          <mat-form-field style="width: 150px">
-            <mat-label>Period</mat-label>
-            <mat-select>
-              <mat-option value="one">Day</mat-option>
-              <mat-option value="two">Week</mat-option>
-              <mat-option value="two">Month</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Toppings</mat-label>
-            <mat-select [formControl]="days" multiple>
-              @for (day of dayList; track day) {
-                <mat-option [value]="day">{{ day }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span>Limit:</span>
-          <mat-checkbox>Without limit</mat-checkbox>
-          <mat-form-field style="width: 150px" subscriptSizing="dynamic">
-            <mat-label>With limit</mat-label>
-            <input type="number" matInput [value]="1">
-          </mat-form-field>
-        </div>
-
-        <mat-form-field style="width: 100%">
-          <mat-label>Custom Frequency</mat-label>
-          <mat-select>
-            <mat-option value="one">Everyday</mat-option>
-            <mat-option value="two">Weekly</mat-option>
-            <mat-option value="two">Monthly</mat-option>
-            <mat-option value="two">Custom</mat-option>
-          </mat-select>
-        </mat-form-field>
-
 
       </mat-card-content>
       <mat-card-actions style="display: flex; justify-content: space-around;
