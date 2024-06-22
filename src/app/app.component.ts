@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {MatNativeDateModule} from "@angular/material/core";
+import {Component,  OnDestroy, OnInit} from "@angular/core";
+import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
 import {MatCalendar} from "@angular/material/datepicker";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
@@ -14,7 +14,7 @@ import {AuthService} from "./services/auth.service";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatToolbarModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf],
+  imports: [MatToolbarModule,   MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf,  MatOption, MatCardActions,MatFabButton, MatMiniFabButton],
   template: `
     <mat-toolbar color="primary">
       <mat-toolbar-row>

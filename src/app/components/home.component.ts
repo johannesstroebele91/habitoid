@@ -11,6 +11,7 @@ import {TimerComponent} from "./timer/timer.component";
 import {HabitComponent} from "./habit.component";
 import {UserWithHabits} from "../shared/models";
 import {UsersHabitsService} from "../services/users-habits.service";
+import {IdealComponent} from "./ideal.component";
 
 @Component({
   selector: 'app-home',
@@ -31,10 +32,12 @@ import {UsersHabitsService} from "../services/users-habits.service";
     MatProgressBar,
     TimerComponent,
     HabitComponent,
+    IdealComponent,
   ],
   template: `
     <div
       style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
+      <app-ideal></app-ideal>
       <app-timer [pointsReached]="points" (pointsReset)="onPointsReset($event)"
                  (pointsAddedByWorkedTime)="onPointsAddedByWorkedTime($event)"></app-timer>
       <app-habit [userWithHabits]="userWithHabits"
