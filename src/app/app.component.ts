@@ -1,4 +1,4 @@
-import {Component,  OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
@@ -14,9 +14,9 @@ import {AuthService} from "./services/auth.service";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatToolbarModule,   MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf,  MatOption, MatCardActions,MatFabButton, MatMiniFabButton],
+  imports: [MatToolbarModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatOption, MatCardActions, MatFabButton, MatMiniFabButton],
   template: `
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" style="width: 100%">
       <mat-toolbar-row>
         <span style="letter-spacing: 1px">{{ title }}</span>
         <mat-icon style="margin-left: 5px">event_available</mat-icon>
@@ -25,9 +25,7 @@ import {AuthService} from "./services/auth.service";
            style="color: white; text-decoration: none; font-size: 16px">Logout</a>
       </mat-toolbar-row>
     </mat-toolbar>
-    <div style=" margin: 30px auto;">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent implements OnInit, OnDestroy {

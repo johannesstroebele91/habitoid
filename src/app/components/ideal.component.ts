@@ -29,7 +29,8 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
         <div
           style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
-          <mat-form-field style="width: 80px" subscriptSizing="dynamic">
+          <mat-form-field style="width: 80px"
+          >
             <mat-label>Order</mat-label>
             <input type="number" matInput [value]="1">
           </mat-form-field>
