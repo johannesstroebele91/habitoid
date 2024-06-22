@@ -12,7 +12,6 @@ import {HabitComponent} from "./habit.component";
 import {UserWithHabits} from "../shared/models";
 import {UsersHabitsService} from "../services/users-habits.service";
 import {IdealComponent} from "./ideal.component";
-import {IdealTableComponent} from "./ideal-table.component";
 
 @Component({
   selector: 'app-home',
@@ -37,17 +36,15 @@ import {IdealTableComponent} from "./ideal-table.component";
     IdealComponent,
     IdealComponent,
     IdealComponent,
-    IdealTableComponent,
   ],
   template: `
     <div
       style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
-      <app-ideal-table></app-ideal-table>
-      <!--<app-ideal></app-ideal>
+      <app-ideal [userWithHabits]="userWithHabits"></app-ideal>
       <app-timer [pointsReached]="points" (pointsReset)="onPointsReset($event)"
                  (pointsAddedByWorkedTime)="onPointsAddedByWorkedTime($event)"></app-timer>
       <app-habit [userWithHabits]="userWithHabits"
-                 (pointsAddedByHabitCompletion)="onPointsAddedByHabitCompletion($event)"></app-habit>-->
+                 (pointsAddedByHabitCompletion)="onPointsAddedByHabitCompletion($event)"></app-habit>
     </div>
   `,
 })

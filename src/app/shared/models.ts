@@ -39,4 +39,10 @@ export interface Habit {
   name: string;
   checked: boolean;
   editing?: boolean;
+  occurrences?: Occurrence[];
+}
+
+interface Occurrence {
+  date: Date;
+  value: 1 | -1;
 }

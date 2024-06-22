@@ -1,4 +1,4 @@
-import {Component, computed, inject, model, signal} from "@angular/core";
+import {Component, computed, inject, Input, model, signal} from "@angular/core";
 import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
@@ -6,8 +6,8 @@ import {MatCalendar} from "@angular/material/datepicker";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
-import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
-import {NgIf} from "@angular/common";
+import {MatToolbar} from "@angular/material/toolbar";
+import {DatePipe, NgIf, NgStyle} from "@angular/common";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelect, MatSelectModule} from "@angular/material/select";
 import {MatInput, MatInputModule} from "@angular/material/input";
@@ -18,86 +18,98 @@ import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {UserWithHabits} from "../shared/models";
+import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-ideal',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonToggleModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatFormField, MatSelect, MatOption, MatInput, MatButtonToggleGroup, MatButtonToggle, MatCheckbox, MatCardActions, MatChipGrid, MatChipRow, FormsModule, MatChipInput, MatAutocompleteTrigger, MatAutocomplete, MatFabButton, MatMiniFabButton, ReactiveFormsModule],
+  imports: [MatTooltipModule, MatButtonToggleModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatFormField, MatSelect, MatOption, MatInput, MatButtonToggleGroup, MatButtonToggle, MatCheckbox, MatCardActions, MatChipGrid, MatChipRow, FormsModule, MatChipInput, MatAutocompleteTrigger, MatAutocomplete, MatFabButton, MatMiniFabButton, ReactiveFormsModule, NgStyle, MatTooltip, DatePipe],
   template: `
-    <mat-card style="width: 400px">
-      <mat-card-content>
+    @for (habit of userWithHabits.habits; track habit; let index = $index) {
+      <mat-card style="width: 400px">
+        <mat-card-content>
 
-        <div
-          style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
-          <mat-form-field style="width: 80px"
-          >
-            <mat-label>Order</mat-label>
-            <input type="number" matInput [value]="1">
+          <div
+            style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+            <mat-form-field style="width: 80px"
+            >
+              <mat-label>Order</mat-label>
+              <input type="number" matInput [value]="index">
+            </mat-form-field>
+            <mat-checkbox>Active</mat-checkbox>
+            <button mat-mini-fab>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <p>Somehow show progress: color? Not number! Per Day of Week; Graph</p>
+
+          <mat-form-field style="width: 100%">
+            <mat-label>Name</mat-label>
+            <input matInput [value]="habit.name">
           </mat-form-field>
-          <mat-checkbox>Active</mat-checkbox>
-          <button mat-mini-fab>
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
 
-        <p>Somehow show progress: color? Not number! Per Day of Week; Graph</p>
+          <mat-form-field style="width: 100%">
+            <mat-label>Description</mat-label>
+            <textarea matInput></textarea>
+          </mat-form-field>
 
-        <mat-form-field style="width: 100%">
-          <mat-label>Name</mat-label>
-          <input matInput>
-        </mat-form-field>
+          <mat-form-field style="width: 100%">
+            <mat-label>Category</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Category selection">
+              @for (category of categories(); track $index) {
+                <mat-chip-row (removed)="remove(category)">
+                  {{ category }}
+                  <button matChipRemove [attr.aria-label]="'remove ' + category">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              }
+            </mat-chip-grid>
+            <input
+              name="currentCategory"
+              placeholder="New Category..."
+              #categoryInput
+              [(ngModel)]="currentCategory"
+              [matChipInputFor]="chipGrid"
+              [matAutocomplete]="auto"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"
+            />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              @for (category of filteredCategory(); track category) {
+                <mat-option [value]="category">{{ category }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
 
-        <mat-form-field style="width: 100%">
-          <mat-label>Description</mat-label>
-          <textarea matInput></textarea>
-        </mat-form-field>
+          <mat-form-field style="width: 100%">
+            <mat-label>Difficulty</mat-label>
+            <mat-select>
+              <mat-option value="one">Easy</mat-option>
+              <mat-option value="two">Moderate</mat-option>
+              <mat-option value="two">Difficult</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>{{ habit.occurrences?.length }} tracked occurrences until today:</p>
+          @for (occurrence of habit.occurrences; track occurrence) {
+            <span
+              [ngStyle]="{'background': occurrence.value === 1 ? '#71da86' : '#ff4d4d'}"
+              matTooltip="Occurrence on {{ occurrence.date | date:'dd MMM yyyy, HH:mm' }} with value {{ occurrence.value }}"
+              style="display: inline-block; width: 9px; height: 10px; border-radius: 2px; margin: 2px">
+            </span>
+          }
 
-        <mat-form-field style="width: 100%">
-          <mat-label>Category</mat-label>
-          <mat-chip-grid #chipGrid aria-label="Category selection">
-            @for (category of categories(); track $index) {
-              <mat-chip-row (removed)="remove(category)">
-                {{ category }}
-                <button matChipRemove [attr.aria-label]="'remove ' + category">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip-row>
-            }
-          </mat-chip-grid>
-          <input
-            name="currentCategory"
-            placeholder="New Category..."
-            #categoryInput
-            [(ngModel)]="currentCategory"
-            [matChipInputFor]="chipGrid"
-            [matAutocomplete]="auto"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)"
-          />
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            @for (category of filteredCategory(); track category) {
-              <mat-option [value]="category">{{ category }}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field style="width: 100%">
-          <mat-label>Difficulty</mat-label>
-          <mat-select>
-            <mat-option value="one">Easy</mat-option>
-            <mat-option value="two">Moderate</mat-option>
-            <mat-option value="two">Difficult</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </mat-card-content>
-      <mat-card-actions style="display: flex; justify-content: space-around;
+        </mat-card-content>
+        <mat-card-actions style="display: flex; justify-content: space-around;
 ">
-        <button mat-button style="width: 100%">-</button>
-        <button mat-button style="width: 100%">+</button>
-      </mat-card-actions>
+          <button mat-button style="width: 100%">-</button>
+          <button mat-button style="width: 100%">+</button>
+        </mat-card-actions>
 
-    </mat-card>
+      </mat-card>
+    }
   `,
 })
 export class IdealComponent {
@@ -115,6 +127,7 @@ export class IdealComponent {
   });
 
   readonly announcer = inject(LiveAnnouncer);
+  @Input() userWithHabits!: UserWithHabits;
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
