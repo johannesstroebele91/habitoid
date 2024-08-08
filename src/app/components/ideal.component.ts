@@ -26,7 +26,7 @@ import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
   standalone: true,
   imports: [MatTooltipModule, MatButtonToggleModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatFormField, MatSelect, MatOption, MatInput, MatButtonToggleGroup, MatButtonToggle, MatCheckbox, MatCardActions, MatChipGrid, MatChipRow, FormsModule, MatChipInput, MatAutocompleteTrigger, MatAutocomplete, MatFabButton, MatMiniFabButton, ReactiveFormsModule, NgStyle, MatTooltip, DatePipe],
   template: `
-    @for (habit of userWithHabits.habits; track habit; let index = $index) {
+    @for (habit of userWithHabits?.habits; track habit; let index = $index) {
       <mat-card style="width: 400px">
         <mat-card-content>
 
@@ -127,7 +127,7 @@ export class IdealComponent {
   });
 
   readonly announcer = inject(LiveAnnouncer);
-  @Input() userWithHabits!: UserWithHabits;
+  @Input() userWithHabits: UserWithHabits | undefined;
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

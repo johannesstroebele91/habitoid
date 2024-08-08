@@ -31,7 +31,7 @@ export interface AuthResponseData {
 export interface UserWithHabits {
   id: string;
   name: string;
-  points?: number;
+  experience?: number;
   habits: Habit[]
 }
 
