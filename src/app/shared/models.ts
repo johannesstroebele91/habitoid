@@ -37,7 +37,7 @@ export interface UserWithHabits {
 
 export interface Habit {
   name: string;
-  checked: boolean;
+  active: boolean;
   editing?: boolean;
   occurrences?: Occurrence[];
 }
