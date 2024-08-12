@@ -17,7 +17,7 @@ import {AuthResponseData} from "../shared/models";
   selector: 'app-login',
   template: `
     <mat-card
-      style="padding: 30px 12px; text-align: center; max-width: 500px; margin: 0 auto;"
+      style="padding: 30px 12px; text-align: center; max-width: 500px; margin: 5% auto 0 auto;"
     >
       <mat-card-header style="display: block;">
         <mat-card-title style=" font-size: 36px">Welcome!</mat-card-title>

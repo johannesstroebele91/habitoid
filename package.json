@@ -19,6 +19,8 @@
     "@angular/platform-browser": "^18.0.4",
     "@angular/platform-browser-dynamic": "^18.0.4",
     "@angular/router": "^18.0.4",
+    "ag-grid-angular": "^32.1.0",
+    "ag-grid-community": "^32.1.0",
     "dayjs": "^1.11.11",
     "npm-check-updates": "^16.14.20",
     "rxjs": "~7.8.1",
@@ -36,6 +38,6 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.4"
   }
 }

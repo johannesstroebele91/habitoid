@@ -38,9 +38,7 @@ import {MatBadge} from "@angular/material/badge";
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
-    <div style="margin: 10px 0">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent implements OnInit, OnDestroy {
