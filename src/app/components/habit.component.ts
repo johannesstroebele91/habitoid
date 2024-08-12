@@ -37,7 +37,7 @@ import {BehaviorSubject, Subscription} from "rxjs";
 
         <mat-list *ngFor="let habit of userWithHabits?.habits">
           <div *ngIf="!habit.editing" style="display: flex; align-items: center;">
-            <mat-checkbox [ngModel]="habit.checked" (change)="markHabitAsCompleted(habit, $event)"
+            <mat-checkbox [ngModel]="habit.active" (change)="markHabitAsCompleted(habit, $event)"
                           style="margin-left: 20px">
             </mat-checkbox>
             <mat-label style="margin-left: 20px; width: 60%">{{ habit.name }}</mat-label>
@@ -87,29 +87,37 @@ import {BehaviorSubject, Subscription} from "rxjs";
   standalone: true
 })
 export class HabitComponent implements OnInit, OnDestroy {
-  @Input() userWithHabits!: UserWithHabits;
+  @Input() userWithHabits: UserWithHabits | undefined;
   @Output() pointsAddedByHabitCompletion = new EventEmitter<number>();
   habitForm = new FormGroup({
     newHabit: new FormControl('')
   });
 
-  private userWithHabitsSubject: BehaviorSubject<UserWithHabits>;
+  private readonly userWithHabitsSubject: BehaviorSubject<UserWithHabits> | undefined;
   private userWithHabitsSubscription: Subscription | undefined;
 
   constructor(private usersHabitsService: UsersHabitsService) {
-    this.userWithHabitsSubject = new BehaviorSubject<UserWithHabits>(this.userWithHabits);
+    if (this.userWithHabits) {
+      this.userWithHabitsSubject = new BehaviorSubject<UserWithHabits>(this.userWithHabits);
+
+    }
   }
 
   ngOnInit() {
-    this.userWithHabitsSubject.next(this.userWithHabits); // Initialize with the input data
-
-    // Subscribe to changes in userWithHabits
-    this.userWithHabitsSubscription = this.userWithHabitsSubject.subscribe(userWithHabits => {
-      if (userWithHabits) {
-        this.userWithHabits = userWithHabits;
+    if (this.userWithHabitsSubject) {
+      if (this.userWithHabits) {
+        this.userWithHabitsSubject.next(this.userWithHabits); // Initialize with the input data
       }
-    });
+
+      // Subscribe to changes in userWithHabits
+      this.userWithHabitsSubscription = this.userWithHabitsSubject.subscribe(userWithHabits => {
+        if (userWithHabits) {
+          this.userWithHabits = userWithHabits;
+        }
+      });
+    }
   }
+
 
   ngOnDestroy() {
     this.userWithHabitsSubscription?.unsubscribe();
@@ -118,11 +126,13 @@ export class HabitComponent implements OnInit, OnDestroy {
   addHabit() {
     const newHabitName = this.habitForm.value.newHabit;
     if (newHabitName) {
-      const newHabit: Habit = {name: newHabitName, checked: false, editing: false}
-      if (this.userWithHabits?.habits?.length > 0) {
-        this.userWithHabits?.habits?.unshift(newHabit);
-      } else {
-        this.userWithHabits = {...this.userWithHabits, habits: [newHabit]}
+      const newHabit: Habit = {name: newHabitName, active: false, editing: false}
+      if (this.userWithHabits) {
+        if (this.userWithHabits?.habits?.length > 0) {
+          this.userWithHabits?.habits?.unshift(newHabit);
+        } else {
+          this.userWithHabits = {...this.userWithHabits, habits: [newHabit]}
+        }
       }
       this.updateUserWithHabits();
     }
@@ -130,7 +140,7 @@ export class HabitComponent implements OnInit, OnDestroy {
   }
 
   markHabitAsCompleted(habit: Habit, event: MatCheckboxChange) {
-    if (event.checked) {
+    if (event.checked && this.userWithHabits) {
       const index = this.userWithHabits.habits.indexOf(habit);
       if (index > -1) {
         this.userWithHabits.habits.splice(index, 1);
@@ -151,14 +161,16 @@ export class HabitComponent implements OnInit, OnDestroy {
   }
 
   updateUserWithHabits() {
-    this.userWithHabitsSubject.next(this.userWithHabits); // Emit updated userWithHabits
-    this.usersHabitsService.updateUser(this.userWithHabits).subscribe({
-      next: (response: any) => {
-        console.log("User habits updated successfully", response);
-      },
-      error: (error: any) => {
-        console.error('Error updating user habits:', error);
-      }
-    });
+    if (this.userWithHabitsSubject && this.userWithHabits) {
+      this.userWithHabitsSubject.next(this.userWithHabits); // Emit updated userWithHabits
+      this.usersHabitsService.updateUser(this.userWithHabits).subscribe({
+        next: (response: any) => {
+          console.log("User habits updated successfully", response);
+        },
+        error: (error: any) => {
+          console.error('Error updating user habits:', error);
+        }
+      });
+    }
   }
 }

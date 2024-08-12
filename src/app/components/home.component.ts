@@ -45,7 +45,7 @@ import {MatBadge} from "@angular/material/badge";
   ],
   template: `
     <div style="margin: 3%">
-      <h1>Hi, {{ userWithHabits.name }}</h1>
+      <h1>Hi, {{ userWithHabits?.name }}</h1>
       <div
         style="display: flex; justify-content: center; align-items: center; align-content: space-between;">
         <!-- TODO: calculate level based on experience for badge and tooltip: userWithHabits?.experience -->
@@ -63,7 +63,7 @@ import {MatBadge} from "@angular/material/badge";
   `,
 })
 export class HomeComponent implements OnInit {
-  userWithHabits!: UserWithHabits;
+  userWithHabits: UserWithHabits | undefined;
   points: number = 0;
 
   constructor(private route: ActivatedRoute, private usersHabitsService: UsersHabitsService) {
