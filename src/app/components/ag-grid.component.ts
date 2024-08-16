@@ -107,10 +107,9 @@ const testData: UserWithHabits[] = [
         <ag-grid-angular
           [rowData]="rowData"
           [columnDefs]="colDefs"
-          class="ag-theme-quartz"
+          class="ag-theme-balham"
           (gridReady)="onGridReady($event)"
           [rowDragManaged]="true"
-          [rowHeight]="30"
           style="height: 70vh"
         ></ag-grid-angular>
       </mat-card-content>
@@ -120,8 +119,8 @@ const testData: UserWithHabits[] = [
 export class AgGridComponent {
   rowData: any[] = [];
   colDefs: any[] = [
-    {field: "name", headerName: "Name", filter: 'agTextColumnFilter'},
-    {field: "active", headerName: "Active", filter: 'agTextColumnFilter', sort: 'desc'},
+    {field: "name", headerName: "Name", filter: 'agTextColumnFilter', width: "140"},
+    {field: "active", headerName: "Active", filter: 'agTextColumnFilter', width: "100", sort: 'desc'},
     {
       field: "occurrences",
       width: 500,
