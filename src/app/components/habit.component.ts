@@ -40,7 +40,7 @@ import {BehaviorSubject, Subscription} from "rxjs";
             <mat-checkbox [ngModel]="habit.active" (change)="markHabitAsCompleted(habit, $event)"
                           style="margin-left: 20px">
             </mat-checkbox>
-            <mat-label style="margin-left: 20px; width: 60%">{{ habit.name }}</mat-label>
+            <mat-label style="margin-left: 20px; width: 60%">{{ habit.challenge }}</mat-label>
             <button mat-icon-button (click)="editHabit(habit)" style="margin-left: 5px" aria-label="Edit habit">
               <mat-icon>edit</mat-icon>
             </button>
@@ -53,7 +53,7 @@ import {BehaviorSubject, Subscription} from "rxjs";
               </button>
             </div>
             <mat-form-field style="width: 70%">
-              <input matInput [(ngModel)]="habit.name" placeholder="Save habit" (keyup.enter)="saveHabit(habit)"
+              <input matInput [(ngModel)]="habit.challenge" placeholder="Save habit" (keyup.enter)="saveHabit(habit)"
               >
             </mat-form-field>
           </div>
@@ -126,7 +126,7 @@ export class HabitComponent implements OnInit, OnDestroy {
   addHabit() {
     const newHabitName = this.habitForm.value.newHabit;
     if (newHabitName) {
-      const newHabit: Habit = {name: newHabitName, active: false, editing: false}
+      const newHabit: Habit = {solution: newHabitName, active: false, editing: false}
       if (this.userWithHabits) {
         if (this.userWithHabits?.habits?.length > 0) {
           this.userWithHabits?.habits?.unshift(newHabit);

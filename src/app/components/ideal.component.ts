@@ -47,7 +47,7 @@ import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
 
           <mat-form-field style="width: 100%">
             <mat-label>Name</mat-label>
-            <input matInput [value]="habit.name">
+            <input matInput [value]="habit.challenge">
           </mat-form-field>
 
           <mat-form-field style="width: 100%">

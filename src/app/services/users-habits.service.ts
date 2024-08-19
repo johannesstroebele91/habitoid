@@ -21,8 +21,8 @@ export class UsersHabitsService {
 
   createUserWithDefaultHabits(id: string, name: string): Observable<{ name: string }> {
     const habits: Habit[] = [
-      {name: 'Add your example habit above', active: false},
-      {name: 'Click on the checkbox to mark a habit as complete', active: false},
+      {solution: 'Add your example habit above', active: false},
+      {solution: 'Click on the checkbox to mark a habit as complete', active: false},
     ];
 
     const userWithHabits: UserWithHabits = {

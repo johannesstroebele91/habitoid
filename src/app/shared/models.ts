@@ -36,7 +36,9 @@ export interface UserWithHabits {
 }
 
 export interface Habit {
-  name: string;
+  solution: string;
+  challenge?: string;
+  consequence?: string;
   active: boolean;
   editing?: boolean;
   occurrences?: Occurrence[];

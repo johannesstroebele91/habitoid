@@ -7,11 +7,12 @@ import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {NgIf} from "@angular/common";
-import {UserWithHabits} from "../shared/models";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInput} from "@angular/material/input";
 import {OccurrenceChipRenderer} from "./occurence-renderer.component";
+import {ActionsRenderer} from "./actions-renderer.component";
+import {UserWithHabits} from "../shared/models";
 
 const testData: UserWithHabits[] = [
   {
@@ -20,24 +21,33 @@ const testData: UserWithHabits[] = [
     experience: 100,
     habits: [
       {
-        name: 'Exercise',
+        solution: 'Exercise',
+        challenge: 'Lack of time',
+        consequence: 'Decreased stamina',
         active: true,
+        editing: false,
         occurrences: [
           {date: new Date('2024-08-01'), value: 1},
           {date: new Date('2024-08-02'), value: 1},
         ]
       },
       {
-        name: 'Reading',
+        solution: 'Reading',
+        challenge: 'Distractions',
+        consequence: 'Slower learning',
         active: false,
+        editing: true,
         occurrences: [
           {date: new Date('2024-08-01'), value: -1},
           {date: new Date('2024-08-03'), value: 1},
         ]
       },
       {
-        name: 'Meditation',
+        solution: 'Meditation',
+        challenge: 'Stress',
+        consequence: 'Anxiety',
         active: true,
+        editing: false,
         occurrences: [
           {date: new Date('2024-08-01'), value: 1},
           {date: new Date('2024-08-02'), value: 1},
@@ -52,16 +62,22 @@ const testData: UserWithHabits[] = [
     experience: 200,
     habits: [
       {
-        name: 'Yoga',
+        solution: 'Yoga',
+        challenge: 'Inconsistent schedule',
+        consequence: 'Back pain',
         active: true,
+        editing: false,
         occurrences: [
           {date: new Date('2024-08-01'), value: 1},
           {date: new Date('2024-08-03'), value: 1},
         ]
       },
       {
-        name: 'Cooking',
+        solution: 'Cooking',
+        challenge: 'Lack of ingredients',
+        consequence: 'Unhealthy eating',
         active: false,
+        editing: true,
         occurrences: [
           {date: new Date('2024-08-02'), value: -1},
         ]
@@ -69,6 +85,7 @@ const testData: UserWithHabits[] = [
     ]
   }
 ];
+
 
 @Component({
   selector: 'app-grid-component',
@@ -118,17 +135,85 @@ const testData: UserWithHabits[] = [
 })
 export class AgGridComponent {
   rowData: any[] = [];
+  quickFilterValue = '';
+  private centerCell = {
+    display: "flex",
+    justifyContent: "center",
+  }
   colDefs: any[] = [
-    {field: "name", headerName: "Name", filter: 'agTextColumnFilter', width: "140"},
-    {field: "active", headerName: "Active", filter: 'agTextColumnFilter', width: "100", sort: 'desc'},
+    {
+      field: "actions",
+      width: 80,
+      headerName: "Actions",
+      cellRenderer: ActionsRenderer,
+    },
+    {field: "solution", headerName: "💡Solution", filter: 'agTextColumnFilter', width: 140},
+    {field: "challenge", headerName: "🏔️Challenge", filter: 'agTextColumnFilter', width: 140},
+    {field: "consequence", headerName: "⛔Consequence", filter: 'agTextColumnFilter', width: 140},
+    {
+      field: "monday",
+      headerName: "Mon",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "tuesday",
+      headerName: "Tue",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "wednesday",
+      headerName: "Wed",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "thursday",
+      headerName: "Thu",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "friday",
+      headerName: "Fri",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "saturday",
+      headerName: "Sat",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
+    {
+      field: "sunday",
+      headerName: "Sun",
+      cellRenderer: 'agCheckboxCellRenderer',
+      cellEditor: 'agCheckboxCellEditor',
+      cellClass: this.centerCell,
+      width: 50
+    },
     {
       field: "occurrences",
+      hide: true,
       width: 500,
-      headerName: "Occurrences",
+      headerName: "🗓️Occurrences",
       cellRenderer: OccurrenceChipRenderer,
-    }
+    },
   ];
-  quickFilterValue = '';
   private gridApi!: GridApi;
 
   constructor() {
@@ -159,9 +244,11 @@ export class AgGridComponent {
         });
 
         return {
-          name: habit.name,
+          solution: habit.solution,
+          challenge: habit.challenge,
+          consequence: habit.consequence,
           active: habit.active ? 'Yes' : 'No',
-          occurrences: formattedOccurrences  // Pass as an array
+          occurrences: formattedOccurrences
         };
       })
     );
