@@ -42,6 +42,13 @@ export interface Habit {
   active: boolean;
   editing?: boolean;
   occurrences?: Occurrence[];
+  type: HabitType
+}
+
+export enum HabitType {
+  event = "event",
+  time = "time",
+  goal = "goal"
 }
 
 interface Occurrence {

@@ -10,7 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatLineModule} from "@angular/material/core";
-import {Habit, UserWithHabits} from "../shared/models";
+import {Habit, HabitType, UserWithHabits} from "../shared/models";
 import {UsersHabitsService} from "../services/users-habits.service";
 import {BehaviorSubject, Subscription} from "rxjs";
 
@@ -126,7 +126,7 @@ export class HabitComponent implements OnInit, OnDestroy {
   addHabit() {
     const newHabitName = this.habitForm.value.newHabit;
     if (newHabitName) {
-      const newHabit: Habit = {solution: newHabitName, active: false, editing: false}
+      const newHabit: Habit = {solution: newHabitName, active: false, editing: false, type: HabitType.event}
       if (this.userWithHabits) {
         if (this.userWithHabits?.habits?.length > 0) {
           this.userWithHabits?.habits?.unshift(newHabit);

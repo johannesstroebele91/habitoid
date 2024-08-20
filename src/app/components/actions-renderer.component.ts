@@ -8,7 +8,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
   selector: 'app-actions-renderer',
   standalone: true,
   template: `
-    <button (click)="editHabit()" mat-icon-button aria-label="Edit habit"
+    <button (click)="editHabit()" mat-icon-button aria-label="Edit habit" style="margin-right: 5px"
             class="small-icon-button">
       <mat-icon>edit</mat-icon>
     </button>
@@ -16,32 +16,6 @@ import {MatButton, MatIconButton} from "@angular/material/button";
       <mat-icon>delete</mat-icon>
     </button>
   `,
-  styles: [`
-    .small-icon-button {
-      width: 26px !important;
-      height: 26px !important;
-      padding: 0px !important;
-      display: inline-flex !important;
-      align-items: center;
-      justify-content: center;
-
-      & > *[role=img] {
-        width: 16px;
-        height: 16px;
-        font-size: 16px;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-      }
-
-      .mat-mdc-button-touch-target {
-        width: 26px !important;
-        height: 26px !important;
-      }
-    }
-  `],
   imports: [
     MatIcon,
     MatButton,
@@ -52,11 +26,11 @@ export class ActionsRenderer implements ICellRendererAngularComp {
   actions: string[] = [];
 
   agInit(params: ICellRendererParams): void {
-    this.updateOccurrences(params.value);
+    this.updateActions(params.value);
   }
 
   refresh(params: ICellRendererParams): boolean {
-    this.updateOccurrences(params.value);
+    this.updateActions(params.value);
     return true;
   }
 
@@ -68,7 +42,7 @@ export class ActionsRenderer implements ICellRendererAngularComp {
 
   }
 
-  private updateOccurrences(value: string[] | null | undefined): void {
+  private updateActions(value: string[] | null | undefined): void {
     this.actions = value || [];
   }
 }

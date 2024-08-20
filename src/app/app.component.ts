@@ -31,7 +31,7 @@ import {MatBadge} from "@angular/material/badge";
              style="display: flex; justify-content: space-between; align-items: center">
           <button mat-fab extended aria-label="Logout" *ngIf="isNotOnLoginOrRegisterPage() && isAuthenticated"
                   routerLink="/"
-                  (click)="logout()">
+                  (click)="logout()" style="height: 40px">
             <mat-icon>logout</mat-icon>
             Logout
           </button>

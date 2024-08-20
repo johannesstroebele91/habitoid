@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from "./auth.service";
-import {Habit, UserWithHabits} from "../shared/models";
+import {Habit, HabitType, UserWithHabits} from "../shared/models";
 import {Observable} from "rxjs";
 
 interface ResponseData {
@@ -21,8 +21,8 @@ export class UsersHabitsService {
 
   createUserWithDefaultHabits(id: string, name: string): Observable<{ name: string }> {
     const habits: Habit[] = [
-      {solution: 'Add your example habit above', active: false},
-      {solution: 'Click on the checkbox to mark a habit as complete', active: false},
+      {solution: 'Add your example habit above', active: false, type: HabitType.event},
+      {solution: 'Click on the checkbox to mark a habit as complete', active: false, type: HabitType.event},
     ];
 
     const userWithHabits: UserWithHabits = {
