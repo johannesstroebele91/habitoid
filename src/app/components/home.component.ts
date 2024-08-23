@@ -7,14 +7,13 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatButton} from "@angular/material/button";
 import {MatProgressBar} from "@angular/material/progress-bar";
-import {TimerComponent} from "./timer/timer.component";
-import {HabitComponent} from "./habit.component";
+import {PostHabitDialogComponent} from "./habits/post-habit-dialog.component";
 import {UserWithHabits} from "../shared/models";
 import {UsersHabitsService} from "../services/users-habits.service";
-import {IdealComponent} from "./ideal.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatBadge} from "@angular/material/badge";
+import {HabitsComponent} from "./habits/habits.component";
 
 @Component({
   selector: 'app-home',
@@ -33,15 +32,11 @@ import {MatBadge} from "@angular/material/badge";
     MatProgressSpinner,
     MatButton,
     MatProgressBar,
-    TimerComponent,
-    HabitComponent,
-    IdealComponent,
-    IdealComponent,
-    IdealComponent,
-    IdealComponent,
+    PostHabitDialogComponent,
     MatIcon,
     MatTooltip,
     MatBadge,
+    HabitsComponent,
   ],
   template: `
     <div style="margin: 3%">
@@ -54,11 +49,7 @@ import {MatBadge} from "@angular/material/badge";
                           [color]="'accent'" style="width: 100%; margin: 0 20px 10px 20px;"></mat-progress-bar>
       </div>
       <div style="text-align: center; margin-bottom: 20px"><b>270 XP</b> left until level <b>7</b></div>
-      <app-ideal [userWithHabits]="userWithHabits"></app-ideal>
-      <app-timer [pointsReached]="points" (pointsReset)="onPointsReset($event)"
-                 (pointsAddedByWorkedTime)="onPointsAddedByWorkedTime($event)"></app-timer>
-      <app-habit [userWithHabits]="userWithHabits"
-                 (pointsAddedByHabitCompletion)="onPointsAddedByHabitCompletion($event)"></app-habit>
+      <app-habits [userWithHabits]="userWithHabits"></app-habits>
     </div>
   `,
 })
