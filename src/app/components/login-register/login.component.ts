@@ -1,6 +1,6 @@
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {Component, inject, OnDestroy} from '@angular/core';
 import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput, MatInputModule} from '@angular/material/input';
@@ -10,8 +10,8 @@ import {CommonModule} from '@angular/common';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatCard, MatCardContent, MatCardHeader, MatCardModule,} from '@angular/material/card';
 import {Subscription} from "rxjs";
-import {ERROR_MESSAGE} from "../shared/constants";
-import {AuthResponseData} from "../shared/models";
+import {ERROR_MESSAGE} from "../../shared/constants";
+import {AuthResponseData} from "../../shared/models";
 
 @Component({
   selector: 'app-login',
@@ -21,10 +21,11 @@ import {AuthResponseData} from "../shared/models";
     >
       <mat-card-header style="display: block;">
         <mat-card-title style=" font-size: 36px">Welcome!</mat-card-title>
-        <mat-card-subtitle style="margin: 30px auto 30px auto; line-height: 1.85"
-        >Habitoid is a habit manager that helps you tracking your habits effectively. Stay motivated by
-          earning points for being consistent.
-        </mat-card-subtitle>
+        <p style="margin: 30px auto 30px auto; line-height: 1.85"
+        >Why settle for ‘just okay’? Go full ‘Kanye Interrupts Taylor’ level of
+          habit mastery. Turn your hustle into high scores cause consistency deserves the kind of praise your cat
+          would give you… 'none'.
+        </p>
       </mat-card-header>
       <mat-card-content>
         <form (ngSubmit)="onSubmit()">
