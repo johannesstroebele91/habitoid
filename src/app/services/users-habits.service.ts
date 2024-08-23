@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from "./auth.service";
-import {Habit, HabitType, UserWithHabits} from "../shared/models";
+import {Habit, MeasurementType, UserWithHabits} from "../shared/models";
 import {Observable} from "rxjs";
 
 interface ResponseData {
@@ -21,8 +21,37 @@ export class UsersHabitsService {
 
   createUserWithDefaultHabits(id: string, name: string): Observable<{ name: string }> {
     const habits: Habit[] = [
-      {solution: 'Add your example habit above', active: false, type: HabitType.event},
-      {solution: 'Click on the checkbox to mark a habit as complete', active: false, type: HabitType.event},
+      {
+        solution: 'Example for a goal that you need to reach: e.g. 5000 steps per day',
+        measurement: {
+          type: MeasurementType.scheduledCompletionGoal
+        },
+        progressToday: '',
+        progressLast7Days: '',
+        progressForWeek: '',
+        progressForMonth: ''
+      },
+      {
+        solution: 'Example for a habit that you need to repeat: e.g. 3 times a day brush teeth',
+        measurement: {
+          type: MeasurementType.scheduledRepetitionGoal
+        },
+        progressToday: '',
+        progressLast7Days: '',
+        progressForWeek: '',
+        progressForMonth: ''
+      },
+      {
+        solution: 'If I feel that I spend too long on a task, I take a walk\'',
+        problem: 'I spent to much time on a task, because I make everything',
+        measurement: {
+          type: MeasurementType.irregularPosNegFeedback
+        },
+        progressToday: '',
+        progressLast7Days: '',
+        progressForWeek: '',
+        progressForMonth: ''
+      },
     ];
 
     const userWithHabits: UserWithHabits = {
