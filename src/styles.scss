@@ -9,38 +9,37 @@
 /* Theme Specific CSS */
 @import 'ag-grid-community/styles/ag-theme-balham.css';
 
-
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the theme object.
-$light-blue-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$azure-palette,
-    tertiary: mat.$blue-palette,
-  ),
-  density: (
-    scale: -1,
-  )
-));
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Habitoid-primary: mat.define-palette(mat.$indigo-palette);
+$Habitoid-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
+// The warn palette is optional (defaults to red).
+$Habitoid-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$Habitoid-theme: mat.define-light-theme((
+  color: (
+    primary: $Habitoid-primary,
+    accent: $Habitoid-accent,
+    warn: $Habitoid-warn,
+  ),
+  typography: mat.define-typography-config(),
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-:root {
-  @include mat.all-component-themes($light-blue-theme);
-}
+@include mat.all-component-themes($Habitoid-theme);
 
-// Comment out the line below if you want to use the pre-defined typography utility classes.
-// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
-// @include mat.typography-hierarchy($testAngularTheme-theme);
-
-// Comment out the line below if you want to use the deprecated `color` inputs.
-// @include mat.color-variants-backwards-compatibility($testAngularTheme-theme);
+/* You can add global styles to this file, and also import other style files */
 
 html, body {
   height: 100vh;

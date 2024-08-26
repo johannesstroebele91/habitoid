@@ -1,24 +1,18 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from "@angular/core";
 import {AgGridAngular} from 'ag-grid-angular';
-import {MatCard, MatCardContent, MatCardHeader, MatCardModule} from "@angular/material/card";
-import {MatButtonModule} from "@angular/material/button";
+import {MatCard, MatCardContent} from "@angular/material/card";
+import {MatFabButton, MatIconButton} from "@angular/material/button";
 import {CellEditingStoppedEvent, ColDef, ColGroupDef, GridApi} from 'ag-grid-community';
-import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatFormFieldModule,} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
-import {DatePipe, NgIf, NgStyle} from "@angular/common";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatInput} from "@angular/material/input";
+import {NgIf} from "@angular/common";
+import { MatInputModule} from "@angular/material/input";
 import {OccurrenceChipRenderer} from "../renderer/occurence-renderer.component";
 import {Habit, Occurrence, UserWithHabits} from "../../shared/models";
-import {RouterLink} from "@angular/router";
 import {TESTDATA_USERS_WITH_HABIT} from "../../shared/constants";
 import {ActionsRenderer} from "../renderer/actions-renderer.component";
 import {MetricRenderer} from "../renderer/metric-renderer.component";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {MatSelect} from "@angular/material/select";
-import {MatTooltip} from "@angular/material/tooltip";
 import {MatDialog} from "@angular/material/dialog";
 import {PostHabitDialogComponent} from "./post-habit-dialog.component";
 
@@ -169,32 +163,11 @@ const colDefs: (ColDef | ColGroupDef)[] = [
 @Component({
   selector: 'app-habits',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatChipsModule,
-    MatIconModule,
-    MatAutocompleteModule,
-    FormsModule,
-    MatButtonModule,
-    MatCardModule,
-    AgGridAngular,
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatLabel,
-    NgIf,
-    OccurrenceChipRenderer,
-    MatInput,
-    RouterLink,
-    DatePipe,
-    MatCheckbox,
-    MatSelect,
-    MatTooltip,
-    NgStyle,
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatCard, MatCardContent, MatFabButton, FormsModule, MatIconButton, NgIf, AgGridAngular
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <mat-card appearance="outlined" style="margin: 1%">
+ <mat-card appearance="outlined" style="margin: 1%">
       <mat-card-content>
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
           <button mat-fab extended aria-label="Add habit" color="primary"
@@ -203,14 +176,14 @@ const colDefs: (ColDef | ColGroupDef)[] = [
             Add Habit
           </button>
 
-          <mat-form-field subscriptSizing="dynamic">
-            <mat-label>Quick Filter</mat-label>
-            <input matInput type="text" [(ngModel)]="quickFilterValue" id="filter-text-box"
-                   (input)="onQuickFilterSearch()" style="height: 50px">
-            <button *ngIf="quickFilterValue" matSuffix mat-icon-button aria-label="Clear" (click)="quickFilterValue=''">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>Quick Filter</mat-label>
+              <input matInput type="text" [(ngModel)]="quickFilterValue" id="filter-text-box"
+                     (input)="onQuickFilterSearch()">
+              <button *ngIf="quickFilterValue" matSuffix mat-icon-button aria-label="Clear" (click)="quickFilterValue=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
         </div>
 
         <ag-grid-angular
