@@ -51,7 +51,7 @@ export interface Habit {
 }
 
 export interface Measurement {
-  type: MeasurementType;
+  type: MetricType;
   repeat?: MeasurementRepetition,
   goal?: MeasurementGoal
 }
@@ -84,10 +84,10 @@ enum Weekday {
   Sunday = 'Sunday'
 }
 
-export enum MeasurementType {
-  irregularPosNegFeedback = "Irregular PosNeg Feedback",
-  scheduledRepetitionGoal = "Scheduled Repetition Goal",
-  scheduledCompletionGoal = "Scheduled Completion Goal"
+export enum MetricType {
+  Repetition = "Repetition",
+  Goal = "Goal",
+  Reaction = "Reaction"
 }
 
 export interface Occurrence {

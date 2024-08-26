@@ -32,7 +32,7 @@ import {MatDialog} from "@angular/material/dialog";
       <button mat-fab extended aria-label="Add habit" color="primary"
               (click)="postHabit()" style="height: 40px">
         <mat-icon>add</mat-icon>
-        Add Habit
+        Add
       </button>
 
       <mat-form-field subscriptSizing="dynamic">

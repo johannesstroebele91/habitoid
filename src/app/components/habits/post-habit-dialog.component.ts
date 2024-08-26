@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Habit, MeasurementType, UserWithHabits} from "../../shared/models";
+import {Habit, MetricType, UserWithHabits} from "../../shared/models";
 import {UsersHabitsService} from "../../services/users-habits.service";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
@@ -187,7 +187,7 @@ export class PostHabitDialogComponent implements OnInit, OnDestroy {
     if (newHabitName) {
       const newHabit: Habit = {
         measurement: {
-          type: MeasurementType.scheduledCompletionGoal
+          type: MetricType.Repetition
         },
         progressForMonth: "",
         progressForWeek: "",
