@@ -3,7 +3,7 @@ import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
 import {MatCalendar} from "@angular/material/datepicker";
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
@@ -14,12 +14,21 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {AuthUser} from "./shared/models";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatBadge} from "@angular/material/badge";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatToolbarModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatOption, MatCardActions, MatFabButton, MatMiniFabButton, MatProgressBar, DatePipe, MatTooltip, MatBadge],
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatToolbarModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatOption, MatCardActions, MatFabButton, MatMiniFabButton, MatProgressBar, DatePipe, MatTooltip, MatBadge],
   template: `
+    <mat-form-field appearance="fill">
+      <mat-label>Fill form field</mat-label>
+      <input matInput placeholder="Placeholder">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Hint</mat-hint>
+    </mat-form-field>
+
     <mat-toolbar color="primary" style="width: 100%">
       <mat-toolbar-row style="display: flex; justify-content: space-between; align-items: center;">
         <div>
