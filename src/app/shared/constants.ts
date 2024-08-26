@@ -1,4 +1,8 @@
 import {MeasurementType, UserWithHabits} from "./models";
+import {ColDef, ColGroupDef} from "ag-grid-community";
+import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
+import {MetricRenderer} from "../components/renderer/metric-renderer.component";
+import {OccurrenceChipRenderer} from "../components/renderer/occurence-renderer.component";
 
 export const ERROR_MESSAGE = 'You must enter a valid value';
 
@@ -152,4 +156,149 @@ export const TESTDATA_USERS_WITH_HABIT: UserWithHabits[] = [
       }
     ]
   }
+];
+
+const centerCell = {
+  display: "flex",
+  justifyContent: "center",
+};
+
+
+export const DEFAULT_COL_DEFS: (ColDef | ColGroupDef)[] = [
+  {
+    field: "actions",
+    width: 110,
+    headerName: "Actions",
+    cellRenderer: ActionsRenderer,
+    rowDrag: true,
+    headerTooltip: "Rows not draggable when sorted",
+    pinned: 'left'
+  },
+  {
+    field: "solution",
+    headerName: "🎯Solution",
+    headerTooltip: "How to improve?",
+    filter: 'agTextColumnFilter',
+    width: 240,
+    pinned: 'left'
+  },
+  {
+    field: "problem",
+    headerName: "⚠️Problem",
+    headerTooltip: "What am I doing wrong?",
+    filter: 'agTextColumnFilter',
+    width: 240,
+    pinned: 'left'
+  },
+  {
+    field: "reason",
+    headerName: "🔍Reason",
+    headerTooltip: "Why is it important to fix?",
+    filter: 'agTextColumnFilter',
+    width: 200
+  },
+  {
+    headerName: "Measurement",
+    children: [
+      {
+        field: "metric",
+        headerName: "🛠️Metric",
+        headerTooltip: "How is it measured?",
+        width: 120,
+        cellEditor: "agNumberCellEditor",
+        editable: true,
+        cellRenderer: () => '<span style="color: grey;">Insert progress</span>'
+      },
+      {
+        field: "metric",
+        headerName: "🛠️Metric",
+        headerTooltip: "How is it measured?",
+        cellRenderer: MetricRenderer,
+        cellStyle: centerCell,
+        width: 80
+      },
+      {
+        field: "metric",
+        headerName: "🛠️Metric",
+        headerTooltip: "FIX!!!!?",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 80
+      },
+    ]
+  },
+  {
+    headerName: "Progress",
+    children: [
+      {
+        field: "progress",
+        headerName: "Progress",
+        width: 80,
+      },
+      {
+        field: "monday",
+        headerName: "Mon",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "tuesday",
+        headerName: "Tue",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "wednesday",
+        headerName: "Wed",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "thursday",
+        headerName: "Thu",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "friday",
+        headerName: "Fri",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "saturday",
+        headerName: "Sat",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        field: "sunday",
+        headerName: "Sun",
+        cellRenderer: 'agCheckboxCellRenderer',
+        cellEditor: 'agCheckboxCellEditor',
+        cellStyle: centerCell,
+        width: 50
+      },
+      {
+        /* TODO evtl. später wieder rauslöschen*/
+        field: "occurrences",
+        width: 500,
+        headerName: "🗓️Last Occurrences",
+        cellRenderer: OccurrenceChipRenderer,
+      },
+    ]
+  },
 ];

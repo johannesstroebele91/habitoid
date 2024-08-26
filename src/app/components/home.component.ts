@@ -55,7 +55,6 @@ import {HabitsComponent} from "./habits/habits.component";
 })
 export class HomeComponent implements OnInit {
   userWithHabits: UserWithHabits | undefined;
-  points: number = 0;
 
   constructor(private route: ActivatedRoute, private usersHabitsService: UsersHabitsService) {
   }
@@ -71,17 +70,4 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-
-  onPointsAddedByHabitCompletion(pointsToAdd: number) {
-    this.points += pointsToAdd;
-  }
-
-  onPointsAddedByWorkedTime(pointsToAdd: number) {
-    this.points += pointsToAdd;
-  }
-
-  onPointsReset(pointsReset: number) {
-    this.points = pointsReset;
-  }
-
 }

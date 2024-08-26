@@ -8,13 +8,15 @@ import {MatButton, MatIconButton} from "@angular/material/button";
   selector: 'app-actions-renderer',
   standalone: true,
   template: `
-    <button (click)="editHabit()" mat-icon-button aria-label="Edit habit" style="margin-right: 5px"
-            class="small-icon-button">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button (click)="deleteHabit()" mat-icon-button aria-label="Delete habit" class="small-icon-button">
-      <mat-icon>delete</mat-icon>
-    </button>
+    <div style="position: relative; top: 3px">
+      <button (click)="editHabit()" mat-icon-button aria-label="Edit habit" style="margin-right: 5px"
+              class="small-icon-button">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="deleteHabit()" mat-icon-button aria-label="Delete habit" class="small-icon-button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   `,
   imports: [
     MatIcon,
