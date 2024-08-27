@@ -193,7 +193,7 @@ export class PostHabitDialogComponent implements OnInit, OnDestroy {
         progressForWeek: "",
         progressLast7Days: "",
         progressToday: "",
-        solution: newHabitName, active: false, editing: false
+        goal: newHabitName, active: false, editing: false
       }
       if (this.userWithHabits) {
         if (this.userWithHabits?.habits?.length > 0) {

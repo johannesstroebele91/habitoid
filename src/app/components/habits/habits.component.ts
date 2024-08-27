@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {AgGridAngular} from 'ag-grid-angular';
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatFabButton, MatIconButton} from "@angular/material/button";
@@ -11,10 +11,10 @@ import {Habit, MetricType, Occurrence, UserWithHabits} from "../../shared/models
 import {
     ACTIONS_COL,
     FRIDAY_COL,
-    GOAL_METRIC_COL,
+    NUMERIC_METRIC_COL,
     MONDAY_COL,
     OCCURRENCES_COL,
-    PROBLEM_COL,
+    TRIGGER_COL,
     PROGRESS_COL,
     REACTION_METRIC_COL,
     REASON_COL,
@@ -37,41 +37,41 @@ import {ColDef, ColGroupDef} from "ag-grid-community";
     imports: [MatTabsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatCard, MatCardContent, MatFabButton, FormsModule, MatIconButton, NgIf, AgGridAngular, MatTabGroup, MatTab, HabitTableComponent
     ],
     template: `
-        <mat-card appearance="outlined">
-            <mat-card-content>
-                <mat-tab-group>
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon style="margin-right: 3px">repeat</mat-icon>
-                            <span>{{ MetricType.Repetition }}</span>
-                        </ng-template>
-                        <app-habit-table [rowData]="repetitionRowData"
-                                         [colDefs]="typeBasedColDefs(MetricType.Repetition)"></app-habit-table>
-                    </mat-tab>
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon style="margin-right: 3px">flag</mat-icon>
-                            <span>{{ MetricType.Goal }}</span>
-                        </ng-template>
-                        <app-habit-table [rowData]="goalRowData"
-                                         [colDefs]="typeBasedColDefs(MetricType.Goal)"></app-habit-table>
-                    </mat-tab>
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon style="margin-right: 5px">thumb_up</mat-icon>
-                            <span>{{ MetricType.Reaction }}</span>
-                        </ng-template>
-                        <app-habit-table [rowData]="reactionRowData"
-                                         [colDefs]="typeBasedColDefs(MetricType.Reaction)"></app-habit-table>
-                    </mat-tab>
-                </mat-tab-group>
-            </mat-card-content>
-        </mat-card>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <mat-tab-group>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon style="margin-right: 3px">repeat</mat-icon>
+                <span>{{ MetricType.Repetition }}</span>
+              </ng-template>
+              <app-habit-table [rowData]="repetitionRowData"
+                               [colDefs]="typeBasedColDefs(MetricType.Repetition)"></app-habit-table>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon style="margin-right: 3px">flag</mat-icon>
+                <span>{{ MetricType.Numeric }}</span>
+              </ng-template>
+              <app-habit-table [rowData]="numericRowData"
+                               [colDefs]="typeBasedColDefs(MetricType.Numeric)"></app-habit-table>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon style="margin-right: 5px">thumb_up</mat-icon>
+                <span>{{ MetricType.Reaction }}</span>
+              </ng-template>
+              <app-habit-table [rowData]="reactionRowData"
+                               [colDefs]="typeBasedColDefs(MetricType.Reaction)"></app-habit-table>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
     `,
 })
 export class HabitsComponent implements OnChanges{
     repetitionRowData: any[] = []; // TODO Typ anpassen
-    goalRowData: any[] = []; // TODO Typ anpassen
+    numericRowData: any[] = []; // TODO Typ anpassen
     reactionRowData: any[] = []; // TODO Typ anpassen
     @Input() userWithHabits: UserWithHabits | undefined;
     protected readonly MetricType = MetricType;
@@ -80,7 +80,7 @@ export class HabitsComponent implements OnChanges{
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['userWithHabits'] && this.userWithHabits) {
             this.repetitionRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Repetition);
-            this.goalRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Goal);
+            this.numericRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Numeric);
             this.reactionRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Reaction);
         }
     }
@@ -88,13 +88,13 @@ export class HabitsComponent implements OnChanges{
     typeBasedColDefs(metricType: MetricType): (ColDef | ColGroupDef)[] {
         switch (metricType) {
             case MetricType.Repetition:
-                return [ACTIONS_COL, SOLUTION_COL, PROBLEM_COL, REPETITION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
-            case MetricType.Goal:
-                return [ACTIONS_COL, SOLUTION_COL, PROBLEM_COL, GOAL_METRIC_COL, PROGRESS_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
+                return [ACTIONS_COL, SOLUTION_COL, REASON_COL, REPETITION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
+            case MetricType.Numeric:
+                return [ACTIONS_COL, SOLUTION_COL, REASON_COL, NUMERIC_METRIC_COL, PROGRESS_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
             case MetricType.Reaction:
-                return [ACTIONS_COL, PROBLEM_COL, REASON_COL, SOLUTION_COL, REACTION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
+                return [ACTIONS_COL, TRIGGER_COL, REASON_COL, SOLUTION_COL, REACTION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
             default:
-                return [ACTIONS_COL, SOLUTION_COL, PROBLEM_COL, REASON_COL, PROGRESS_COL, REACTION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
+                return [];
         }
     }
 

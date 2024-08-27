@@ -36,10 +36,10 @@ export interface UserWithHabits {
 }
 
 export interface Habit {
-  solution: string;
-  problem?: string;
+  goal: string;
+  trigger?: string;
   reason?: string;
-  measurement: Measurement;
+  measurement: Metric;
   progressToday: string;
   progressLast7Days: string;
   progressForWeek: string;
@@ -50,20 +50,20 @@ export interface Habit {
   occurrences?: Occurrence[];
 }
 
-export interface Measurement {
+export interface Metric {
   type: MetricType;
-  repeat?: MeasurementRepetition,
-  goal?: MeasurementGoal
+  repetition?: MetricRepetition,
+  numeric?: MetricNumeric
 }
 
-export interface MeasurementRepetition {
+export interface MetricRepetition {
   amount: number,
   unit: string,
   weekday: number
 }
 
-export interface MeasurementGoal {
-  amount: number,
+export interface MetricNumeric {
+  totalAmount: number,
   unit: string
 }
 
@@ -86,7 +86,7 @@ enum Weekday {
 
 export enum MetricType {
   Repetition = "Repetition",
-  Goal = "Goal",
+  Numeric = "Numeric",
   Reaction = "Reaction"
 }
 

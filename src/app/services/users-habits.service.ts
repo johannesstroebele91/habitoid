@@ -24,9 +24,9 @@ export class UsersHabitsService {
     // TODO später löschen
     const habits: Habit[] = [
       {
-        problem: 'Don\'t think that going later to the gym works.',
+        trigger: 'Don\'t think that going later to the gym works.',
         reason: 'I mess up my WHOLE day if I don\'t do it in the morning!',
-        solution: '1) Go to the gym the next day 2) Go now and write colleagues that I\'ll arrive later to work',
+        goal: '1) Go to the gym the next day 2) Go now and write colleagues that I\'ll arrive later to work',
         measurement: {
           type: MetricType.Reaction
         },
@@ -42,9 +42,9 @@ export class UsersHabitsService {
         ]
       },
       {
-        problem: 'Don\'t spent too much time making everything perfect',
+        trigger: 'Don\'t spent too much time making everything perfect',
         reason: 'Causes me to overbook my tickets, lots of stress, and the customer doesn\'t actually need it',
-        solution: '1) Take a nap with ebook 2) Take a walk (without my phone)',
+        goal: '1) Take a nap with ebook 2) Take a walk (without my phone)',
         measurement: {
           type: MetricType.Reaction
         },
@@ -60,9 +60,9 @@ export class UsersHabitsService {
         ]
       },
       {
-        problem: 'Don\'t use phone/gaming, when I cannot solve my task',
+        trigger: 'Don\'t use phone/gaming, when I cannot solve my task',
         reason: 'Stresses me out even more, leads to a downward spirale',
-        solution: '1) Take a nap with ebook 2) Take a walk (without my phone)',
+        goal: '1) Take a nap with ebook 2) Take a walk (without my phone)',
         measurement: {
           type: MetricType.Reaction
         },
@@ -79,7 +79,7 @@ export class UsersHabitsService {
         ]
       },
       {
-        solution: 'Wash clothes each saturday',
+        goal: 'Wash clothes each saturday',
         reason: 'Best to wash within 1kg wash machine limit.',
         measurement: {
           type: MetricType.Repetition
@@ -96,7 +96,7 @@ export class UsersHabitsService {
         ]
       },
       {
-        solution: 'Put phone into letterbox in the morning until 5pm',
+        goal: 'Put phone into letterbox in the morning until 5pm',
         reason: 'Cannot focus with phone in my room.',
         measurement: {
           type: MetricType.Repetition
@@ -112,10 +112,10 @@ export class UsersHabitsService {
         ]
       },
       {
-        solution: 'Walk 10000 steps every day',
+        goal: 'Walk 10000 steps every day',
         reason: 'Want to loose weight',
         measurement: {
-          type: MetricType.Goal
+          type: MetricType.Numeric
         },
         progressToday: '1/1',
         progressLast7Days: '7/7, 6/7',
@@ -130,10 +130,10 @@ export class UsersHabitsService {
         ]
       },
       {
-        solution: 'Drink 3 liters each day',
+        goal: 'Drink 3 liters each day',
         reason: 'Staying hydrated improves overall health and energy',
         measurement: {
-          type: MetricType.Goal
+          type: MetricType.Numeric
         },
         progressToday: '1/1',
         progressLast7Days: '5/7',

@@ -1,4 +1,4 @@
-import {Habit, MetricType} from "./models";
+import {MetricType} from "./models";
 import {ColDef, ColGroupDef} from "ag-grid-community";
 import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
 import {OccurrenceChipRenderer} from "../components/renderer/occurence-renderer.component";
@@ -24,16 +24,16 @@ export const ACTIONS_COL: (ColDef | ColGroupDef) =
 export const SOLUTION_COL: (ColDef | ColGroupDef) = {
   field: "solution",
   headerName: "🎯Solution",
-  headerTooltip: "How to improve?",
+  headerTooltip: "How to create a positive habit",
   filter: 'agTextColumnFilter',
   width: 240,
   pinned: 'left'
 };
 
-export const PROBLEM_COL: (ColDef | ColGroupDef) = {
-  field: "problem",
-  headerName: "⚠️Problem",
-  headerTooltip: "What am I doing wrong?",
+export const TRIGGER_COL: (ColDef | ColGroupDef) = {
+  field: "trigger",
+  headerName: "⚠️Trigger",
+  headerTooltip: "What triggers the negative habit? (e.g. I hit a wall on a task, so I go on YouTube)",
   filter: 'agTextColumnFilter',
   width: 240,
   pinned: 'left'
@@ -113,27 +113,27 @@ export const OCCURRENCES_COL: (ColDef | ColGroupDef) = {
   cellRenderer: OccurrenceChipRenderer,
 };
 export const REPETITION_METRIC_COL: ColDef = {
-  field: "goal",
-  headerName: "Goal",
-  headerTooltip: "Scheduled Completion Goal", // TODO fix
+  field: MetricType.Repetition.toLowerCase(),
+  headerName: MetricType.Repetition,
+  headerTooltip: "Scheduled repetition to complete in a certain time frame (e.g. wake a walk 3 times per day)", // TODO fix
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
   width: 80
 }
-export const GOAL_METRIC_COL: ColDef = {
-  field: "goal",
-  headerName: "Goal",
-  headerTooltip: "Scheduled Repetition Goal", // TODO fix
+export const NUMERIC_METRIC_COL: ColDef = {
+  field: MetricType.Numeric.toLowerCase(),
+  headerName: MetricType.Numeric,
+  headerTooltip: "Scheduled amount to reach in a certain time frame (e.g. walk 10000 steps each day)", // TODO fix
   width: 120,
   cellEditor: "agNumberCellEditor",
   editable: true,
   cellRenderer: () => '<span style="color: grey;">Insert progress</span>'
 }
 export const REACTION_METRIC_COL: ColDef = {
-  field: "reaction",
-  headerName: "Reaction",
-  headerTooltip: "Irregular PosNeg Feedback", // TODO fix
+  field: MetricType.Reaction.toLowerCase(),
+  headerName: MetricType.Reaction,
+  headerTooltip: "Positive or negative feedback based on a negative trigger (e.g. watching YouTube when you feel stressed)", // TODO fix
   cellRenderer: MetricRenderer,
   cellStyle: centerCell,
   width: 80
