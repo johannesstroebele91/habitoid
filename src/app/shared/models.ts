@@ -36,22 +36,19 @@ export interface UserWithHabits {
 }
 
 export interface Habit {
-  goal: string;
+  type: HabitType,
+  reason: string;
+  goal?: string;
   trigger?: string;
-  reason?: string;
-  measurement: Metric;
-  progressToday: string;
-  progressLast7Days: string;
-  progressForWeek: string;
-  progressForMonth: string;
+  solution?: string;
+  metric: Metric;
+  occurrences?: Occurrence[];
   // TODO check later if still needed
   active?: boolean;
   editing?: boolean;
-  occurrences?: Occurrence[];
 }
 
 export interface Metric {
-  type: MetricType;
   repetition?: MetricRepetition,
   numeric?: MetricNumeric
 }
@@ -84,10 +81,9 @@ enum Weekday {
   Sunday = 'Sunday'
 }
 
-export enum MetricType {
-  Repetition = "Repetition",
-  Numeric = "Numeric",
-  Reaction = "Reaction"
+export enum HabitType {
+  Proactive = "Proactive",
+  Reactive = "Reactive"
 }
 
 export interface Occurrence {

@@ -1,4 +1,4 @@
-import {MetricType} from "./models";
+import {HabitType} from "./models";
 import {ColDef, ColGroupDef} from "ag-grid-community";
 import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
 import {OccurrenceChipRenderer} from "../components/renderer/occurence-renderer.component";
@@ -11,100 +11,119 @@ const centerCell = {
   justifyContent: "center",
 };
 
+// General
 export const ACTIONS_COL: (ColDef | ColGroupDef) =
   {
     field: "actions",
-    width: 110,
+    width: 95,
     headerName: "Actions",
     cellRenderer: ActionsRenderer,
     rowDrag: true,
-    headerTooltip: "Rows not draggable when sorted",
+    headerTooltip: "Rows are not draggable when sorted",
     pinned: 'left'
   };
+export const REASON_COL: (ColDef | ColGroupDef) = {
+  field: "reason",
+  headerName: "🔍Reason",
+  headerTooltip: "Why is it important to do?",
+  filter: 'agTextColumnFilter',
+  width: 180
+};
+
+// Proactive Habit
+export const GOAL_COL: (ColDef | ColGroupDef) = {
+  field: "goal",
+  headerName: "🎯Goal",
+  headerTooltip: "What should I do",
+  filter: 'agTextColumnFilter',
+  width: 180,
+  pinned: 'left'
+};
+
+// Reactive Habit
 export const SOLUTION_COL: (ColDef | ColGroupDef) = {
   field: "solution",
   headerName: "🎯Solution",
-  headerTooltip: "How to create a positive habit",
+  headerTooltip: "How to fix what I reactively do wrong",
+  filter: 'agTextColumnFilter',
+  width: 180,
+  pinned: 'left'
+};
+export const TRIGGER_COL: (ColDef | ColGroupDef) = {
+  field: "trigger",
+  headerName: "⚠️Trigger",
+  headerTooltip: "What triggers the bad habit? (e.g. When I hit a wall on a task, I go on YouTube)",
   filter: 'agTextColumnFilter',
   width: 240,
   pinned: 'left'
 };
 
-export const TRIGGER_COL: (ColDef | ColGroupDef) = {
-  field: "trigger",
-  headerName: "⚠️Trigger",
-  headerTooltip: "What triggers the negative habit? (e.g. I hit a wall on a task, so I go on YouTube)",
-  filter: 'agTextColumnFilter',
-  width: 240,
-  pinned: 'left'
+// Progress
+export const PROGRESS_TODAY_COL: (ColDef | ColGroupDef) = {
+  field: "today",
+  headerName: "Today",
+  cellRenderer: (params: any) => {
+    console.log(params);
+    return `<div class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper ag-indeterminate ag-disabled" style="position: relative; top: -1px"><input type='checkbox' ${params.value ? 'checked' : ''} class="ag-input-field-input ag-checkbox-input" disabled /></div>`;
+  },
+  cellStyle: centerCell,
+  width: 60
 };
-export const REASON_COL: (ColDef | ColGroupDef) = {
-  field: "reason",
-  headerName: "🔍Reason",
-  headerTooltip: "Why is it important to fix?",
-  filter: 'agTextColumnFilter',
-  width: 200
-};
-export const PROGRESS_COL: (ColDef | ColGroupDef) = {
-  field: "progress",
-  headerName: "Progress",
-  width: 80,
-};
-export const MONDAY_COL: (ColDef | ColGroupDef) = {
-  field: "monday",
-  headerName: "Mon",
+export const PROGRESS_1_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "1-day-ago",
+  headerName: "1 day ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const TUESDAY_COL: (ColDef | ColGroupDef) = {
-  field: "tuesday",
-  headerName: "Tue",
+export const PROGRESS_2_DAYS_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "2-days-ago",
+  headerName: "2 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const WEDNESDAY_COL: (ColDef | ColGroupDef) = {
-  field: "wednesday",
-  headerName: "Wed",
+export const PROGRESS_3_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "3-days-ago",
+  headerName: "3 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const THURSDAY_COL: (ColDef | ColGroupDef) = {
-  field: "thursday",
-  headerName: "Thu",
+export const PROGRESS_4_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "4-days-ago",
+  headerName: "4 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const FRIDAY_COL: (ColDef | ColGroupDef) = {
-  field: "friday",
-  headerName: "Fri",
+export const PROGRESS_5_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "5-days-ago",
+  headerName: "5 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const SATURDAY_COL: (ColDef | ColGroupDef) = {
-  field: "saturday",
-  headerName: "Sat",
+export const PROGRESS_6_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "6-days-ago",
+  headerName: "6 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
-export const SUNDAY_COL: (ColDef | ColGroupDef) = {
-  field: "sunday",
-  headerName: "Sun",
+export const PROGRESS_7_DAY_AGO_COL: (ColDef | ColGroupDef) = {
+  field: "7-days-ago",
+  headerName: "7 days ago",
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
-  width: 50
+  width: 60
 };
 export const OCCURRENCES_COL: (ColDef | ColGroupDef) = {
   field: "occurrences",
@@ -112,29 +131,20 @@ export const OCCURRENCES_COL: (ColDef | ColGroupDef) = {
   headerName: "🗓️Last Occurrences",
   cellRenderer: OccurrenceChipRenderer,
 };
-export const REPETITION_METRIC_COL: ColDef = {
-  field: MetricType.Repetition.toLowerCase(),
-  headerName: MetricType.Repetition,
-  headerTooltip: "Scheduled repetition to complete in a certain time frame (e.g. wake a walk 3 times per day)", // TODO fix
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 80
-}
-export const NUMERIC_METRIC_COL: ColDef = {
-  field: MetricType.Numeric.toLowerCase(),
-  headerName: MetricType.Numeric,
+export const PROACTIVE_METRIC_COL: ColDef = {
+  field: HabitType.Proactive.toLowerCase(),
+  headerName: "Metric",
   headerTooltip: "Scheduled amount to reach in a certain time frame (e.g. walk 10000 steps each day)", // TODO fix
-  width: 120,
+  width: 105,
   cellEditor: "agNumberCellEditor",
   editable: true,
   cellRenderer: () => '<span style="color: grey;">Insert progress</span>'
 }
-export const REACTION_METRIC_COL: ColDef = {
-  field: MetricType.Reaction.toLowerCase(),
-  headerName: MetricType.Reaction,
+export const REACTIVE_METRIC_COL: ColDef = {
+  field: HabitType.Reactive.toLowerCase(),
+  headerName: "Metric",
   headerTooltip: "Positive or negative feedback based on a negative trigger (e.g. watching YouTube when you feel stressed)", // TODO fix
   cellRenderer: MetricRenderer,
   cellStyle: centerCell,
-  width: 80
+  width: 60
 }
