@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Habit, MetricType, UserWithHabits} from "../../shared/models";
+import {Habit, UserWithHabits} from "../../shared/models";
 import {UsersHabitsService} from "../../services/users-habits.service";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
@@ -185,23 +185,19 @@ export class PostHabitDialogComponent implements OnInit, OnDestroy {
   addHabit() {
     const newHabitName = this.habitForm.value.newHabit;
     if (newHabitName) {
-      const newHabit: Habit = {
-        measurement: {
-          type: MetricType.Repetition
-        },
-        progressForMonth: "",
-        progressForWeek: "",
-        progressLast7Days: "",
-        progressToday: "",
-        goal: newHabitName, active: false, editing: false
-      }
-      if (this.userWithHabits) {
-        if (this.userWithHabits?.habits?.length > 0) {
-          this.userWithHabits?.habits?.unshift(newHabit);
-        } else {
-          this.userWithHabits = {...this.userWithHabits, habits: [newHabit]}
-        }
-      }
+    /* TODO rework logic
+          const newHabit: any = {
+            type: HabitType.Proactive,
+            goal: newHabitName,
+          }
+          if (this.userWithHabits) {
+            if (this.userWithHabits?.habits?.length > 0) {
+              this.userWithHabits?.habits?.unshift(newHabit);
+            } else {
+              this.userWithHabits = {...this.userWithHabits, habits: [newHabit]}
+            }
+          }
+      */
       this.updateUserWithHabits();
     }
     this.habitForm.reset();

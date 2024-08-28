@@ -7,25 +7,23 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
-import {Habit, MetricType, Occurrence, UserWithHabits} from "../../shared/models";
+import {Habit, HabitType, Occurrence, UserWithHabits} from "../../shared/models";
 import {
-    ACTIONS_COL,
-    FRIDAY_COL,
-    NUMERIC_METRIC_COL,
-    MONDAY_COL,
-    OCCURRENCES_COL,
-    TRIGGER_COL,
-    PROGRESS_COL,
-    REACTION_METRIC_COL,
-    REASON_COL,
-    REPETITION_METRIC_COL,
-    SATURDAY_COL,
-    SOLUTION_COL,
-    SUNDAY_COL,
-    THURSDAY_COL,
-    TUESDAY_COL,
-    WEDNESDAY_COL
-} from "../../shared/constants";
+  ACTIONS_COL,
+  PROGRESS_4_DAY_AGO_COL,
+  PROGRESS_TODAY_COL,
+  OCCURRENCES_COL,
+  TRIGGER_COL,
+  REACTIVE_METRIC_COL,
+  REASON_COL,
+  PROACTIVE_METRIC_COL,
+  PROGRESS_5_DAY_AGO_COL,
+  SOLUTION_COL,
+  PROGRESS_6_DAY_AGO_COL,
+  PROGRESS_3_DAY_AGO_COL,
+  PROGRESS_1_DAY_AGO_COL,
+  PROGRESS_2_DAYS_AGO_COL, PROGRESS_7_DAY_AGO_COL
+} from "../../shared/columns";
 import {MatTab, MatTabGroup, MatTabsModule} from "@angular/material/tabs";
 import {HabitTableComponent} from "./habit-table.component";
 import {ColDef, ColGroupDef} from "ag-grid-community";
@@ -43,26 +41,18 @@ import {ColDef, ColGroupDef} from "ag-grid-community";
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon style="margin-right: 3px">repeat</mat-icon>
-                <span>{{ MetricType.Repetition }}</span>
+                <span>{{ MetricType.Proactive }}</span>
               </ng-template>
-              <app-habit-table [rowData]="repetitionRowData"
-                               [colDefs]="typeBasedColDefs(MetricType.Repetition)"></app-habit-table>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon style="margin-right: 3px">flag</mat-icon>
-                <span>{{ MetricType.Numeric }}</span>
-              </ng-template>
-              <app-habit-table [rowData]="numericRowData"
-                               [colDefs]="typeBasedColDefs(MetricType.Numeric)"></app-habit-table>
+              <app-habit-table [rowData]="proactiveHabitsRowData"
+                               [colDefs]="typeBasedColDefs(MetricType.Proactive)"></app-habit-table>
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon style="margin-right: 5px">thumb_up</mat-icon>
-                <span>{{ MetricType.Reaction }}</span>
+                <span>{{ MetricType.Reactive }}</span>
               </ng-template>
-              <app-habit-table [rowData]="reactionRowData"
-                               [colDefs]="typeBasedColDefs(MetricType.Reaction)"></app-habit-table>
+              <app-habit-table [rowData]="reactiveHabitsRowData"
+                               [colDefs]="typeBasedColDefs(MetricType.Reactive)"></app-habit-table>
             </mat-tab>
           </mat-tab-group>
         </mat-card-content>
@@ -70,41 +60,35 @@ import {ColDef, ColGroupDef} from "ag-grid-community";
     `,
 })
 export class HabitsComponent implements OnChanges{
-    repetitionRowData: any[] = []; // TODO Typ anpassen
-    numericRowData: any[] = []; // TODO Typ anpassen
-    reactionRowData: any[] = []; // TODO Typ anpassen
+    proactiveHabitsRowData: any[] = []; // TODO Typ anpassen
+    reactiveHabitsRowData: any[] = []; // TODO Typ anpassen
     @Input() userWithHabits: UserWithHabits | undefined;
-    protected readonly MetricType = MetricType;
+    protected readonly MetricType = HabitType;
 
     // TODO besser Lösung einbauen
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['userWithHabits'] && this.userWithHabits) {
-            this.repetitionRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Repetition);
-            this.numericRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Numeric);
-            this.reactionRowData = this.buildRowDataByType(this.userWithHabits.habits, MetricType.Reaction);
+            this.proactiveHabitsRowData = this.buildRowDataByType(this.userWithHabits.habits, HabitType.Proactive);
+            this.reactiveHabitsRowData = this.buildRowDataByType(this.userWithHabits.habits, HabitType.Reactive);
         }
     }
 
-    typeBasedColDefs(metricType: MetricType): (ColDef | ColGroupDef)[] {
-        switch (metricType) {
-            case MetricType.Repetition:
-                return [ACTIONS_COL, SOLUTION_COL, REASON_COL, REPETITION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
-            case MetricType.Numeric:
-                return [ACTIONS_COL, SOLUTION_COL, REASON_COL, NUMERIC_METRIC_COL, PROGRESS_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
-            case MetricType.Reaction:
-                return [ACTIONS_COL, TRIGGER_COL, REASON_COL, SOLUTION_COL, REACTION_METRIC_COL, MONDAY_COL, TUESDAY_COL, WEDNESDAY_COL, THURSDAY_COL, FRIDAY_COL, SATURDAY_COL, SUNDAY_COL, OCCURRENCES_COL];
-            default:
-                return [];
-        }
+    typeBasedColDefs(metricType: HabitType): (ColDef | ColGroupDef)[] {
+      const PROGRESS_COLS = [PROGRESS_TODAY_COL, PROGRESS_1_DAY_AGO_COL, PROGRESS_2_DAYS_AGO_COL, PROGRESS_3_DAY_AGO_COL, PROGRESS_4_DAY_AGO_COL, PROGRESS_5_DAY_AGO_COL, PROGRESS_6_DAY_AGO_COL, PROGRESS_7_DAY_AGO_COL, OCCURRENCES_COL];
+      if(metricType === HabitType.Proactive) {
+        return [ACTIONS_COL, SOLUTION_COL, REASON_COL, PROACTIVE_METRIC_COL, ...PROGRESS_COLS];
+      } else {
+        return [ACTIONS_COL, TRIGGER_COL, REASON_COL, SOLUTION_COL, REACTIVE_METRIC_COL, ...PROGRESS_COLS];
+      }
     }
 
     // filter habits based on MetricType
-    private filterHabitsByType(habits: Habit[], type: MetricType): Habit[] {
-        return habits.filter(habit => habit.measurement.type === type);
+    private filterHabitsByType(habits: Habit[], type: HabitType): Habit[] {
+        return habits.filter(habit => habit.type === type);
     }
 
     // build row data based on the MetricType
-    private buildRowDataByType(habits: Habit[] | undefined, type: MetricType): any[] {
+    private buildRowDataByType(habits: Habit[] | undefined, type: HabitType): any[] {
         if (!habits) {
             return [];
         }

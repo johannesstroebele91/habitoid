@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatCard, MatCardContent, MatCardHeader, MatCardModule,} from '@angular/material/card';
 import {Subscription} from "rxjs";
-import {ERROR_MESSAGE} from "../../shared/constants";
 import {AuthResponseData} from "../../shared/models";
 
 @Component({
@@ -123,7 +122,7 @@ export class LoginComponent implements OnDestroy {
   router = inject(Router);
   authService = inject(AuthService);
   requestErrorMessage: string = '';
-  protected readonly ERROR_MESSAGE = ERROR_MESSAGE;
+  protected readonly ERROR_MESSAGE = "'You must enter a valid value'";
   private authServiceSub: Subscription | undefined;
 
   get email(): any {

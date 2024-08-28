@@ -16,7 +16,6 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../../services/auth.service";
-import {ERROR_MESSAGE} from "../../shared/constants";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {AuthResponseData} from "../../shared/models";
 import {UsersHabitsService} from "../../services/users-habits.service";
@@ -176,7 +175,7 @@ export class RegistrationComponent {
     password: new FormControl('', Validators.required),
   });
   requestErrorMessage: string = ''
-  protected readonly ERROR_MESSAGE = ERROR_MESSAGE;
+  protected readonly ERROR_MESSAGE = "You must enter a valid value";
 
   get name(): any {
     return this.signupForm.get('name');
