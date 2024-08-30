@@ -53,11 +53,9 @@ export class MetricRenderer implements ICellRendererAngularComp {
   }
 
   test() {
-
   }
 
   addValue() {
-
   }
 
   private updateMetric(value: string[] | null | undefined): void {

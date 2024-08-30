@@ -101,9 +101,7 @@ import {DATE_COL, VALUE_COL} from "../../shared/columns";
             [rowData]="this.habit?.occurrences"
             [columnDefs]="colDefs"
             class="ag-theme-balham"
-            [rowHeight]="25"
-            [headerHeight]="28"
-            style="height: 20vh"/>
+            style="height: 10vh"/>
           <ag-grid-angular/>
         </div>
         <!-- TODO fix
@@ -193,7 +191,6 @@ export class PostHabitDialogComponent {
   get type(): any {
     return this.postHabitForm.get('type');
   }
-
 
   onSubmit() {
     if (
