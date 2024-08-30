@@ -22,7 +22,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatToolbarModule, MatNativeDateModule, RouterOutlet, MatButton, MatCalendar, MatIcon, MatMenuTrigger, MatIconButton, MatMenu, MatCard, MatCardTitle, MatCardHeader, MatCardContent, MatToolbar, RouterLink, NgIf, MatOption, MatCardActions, MatFabButton, MatMiniFabButton, MatProgressBar, DatePipe, MatTooltip, MatBadge],
   template: `
-   <mat-toolbar color="primary" style="width: 100%">
+    <mat-toolbar color="primary" style="width: 100%">
       <mat-toolbar-row style="display: flex; justify-content: space-between; align-items: center;">
         <div>
           <span style="letter-spacing: 1px">{{ title }}</span>
@@ -52,15 +52,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authService.autoLoginAfterReload();
-
     this.userSub = this.authService.user.subscribe({
       next: (user: AuthUser | null) => {
-        console.log('Created user successfully: ', user)
+        console.log('User loaded successfully: ', user)
         return this.isAuthenticated = !!user;
       },
       error: (error: any) => console.error('Error on getting user: ', error)
     })
+    this.authService.autoLoginAfterReload();
   }
 
   isNotOnLoginOrRegisterPage(): boolean {

@@ -1,15 +1,14 @@
 import {Component, inject, Input} from "@angular/core";
 import {AgGridAngular} from "ag-grid-angular";
-import {CellEditingStoppedEvent, ColDef, ColGroupDef, GridApi} from "ag-grid-community";
+import {ColDef, ColGroupDef, GridApi} from "ag-grid-community";
 import {MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Habit} from "../../shared/models";
-import {PostHabitDialogComponent} from "./post-habit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {postHabit} from "../../shared/utils";
 
 @Component({
   selector: "app-habit-table",
@@ -30,7 +29,7 @@ import {MatDialog} from "@angular/material/dialog";
   template: `
     <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
       <button mat-fab extended aria-label="Add habit" color="primary"
-              (click)="postHabit()" style="height: 40px">
+              (click)="addHabit()" style="height: 40px">
         <mat-icon>add</mat-icon>
         Add
       </button>
@@ -51,9 +50,8 @@ import {MatDialog} from "@angular/material/dialog";
       class="ag-theme-balham"
       (gridReady)="onGridReady($event)"
       [rowDragManaged]="true"
-      (cellEditingStopped)="onCellEditingStopped($event)"
-      style="height: 50vh"
-    />
+      style="height: 50vh"/>
+    <!-- (cellEditingStopped)="onCellEditingStopped($event)" TODO überarbeiten -->
   `,
 })
 export class HabitTableComponent {
@@ -76,15 +74,11 @@ export class HabitTableComponent {
     }
   }
 
-  postHabit(habit?: Habit): void {
-    const dialogRef = this.dialog.open(PostHabitDialogComponent, {
-      data: habit
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+  addHabit(): void {
+    postHabit(this.dialog);
   }
 
+  /* TODO überarbeiten
   onCellEditingStopped($event: CellEditingStoppedEvent) {
     // Handle the logic after the editing metrics col stops
     if ($event.colDef.field === "metric") {
@@ -97,5 +91,5 @@ export class HabitTableComponent {
       // Trigger a change in 'progress' field
       $event.node.setDataValue('progress', newProgressValue + oldProgressValue);
     }
-  }
+  } */
 }

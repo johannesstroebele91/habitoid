@@ -1,31 +1,27 @@
+import {ChangeDetectionStrategy, Component, computed, inject, model, signal} from "@angular/core";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Habit, HabitLabel, HabitType} from "../../shared/models";
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  EventEmitter,
-  inject,
-  Input,
-  model,
-  OnDestroy,
-  OnInit,
-  Output,
-  signal
-} from "@angular/core";
-import {MatCheckboxChange} from "@angular/material/checkbox";
-import {FormControl, FormGroup} from "@angular/forms";
-import {Habit, UserWithHabits} from "../../shared/models";
-import {UsersHabitsService} from "../../services/users-habits.service";
-import {BehaviorSubject, Subscription} from "rxjs";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {MatChipInputEvent} from "@angular/material/chips";
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+  MatOption
+} from "@angular/material/autocomplete";
+import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-
+import {DatePipe, NgIf, NgStyle} from "@angular/common";
+import {MatTooltip} from "@angular/material/tooltip";
+import {MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
+import {AgGridAngular} from "ag-grid-angular";
+import {ColDef} from "ag-grid-community";
+import {DATE_COL, VALUE_COL} from "../../shared/columns";
 
 @Component({
   selector: 'app-post-habit-dialog',
@@ -40,98 +36,137 @@ import {MatInput} from "@angular/material/input";
     MatFormField,
     MatInput,
     MatFormFieldModule,
+    DatePipe,
+    MatTooltip,
+    NgStyle,
+    MatOption,
+    MatSelect,
+    MatAutocomplete,
+    MatChipInput,
+    MatAutocompleteTrigger,
+    FormsModule,
+    MatChipRemove,
+    MatIcon,
+    MatChipRow,
+    MatChipGrid,
+    ReactiveFormsModule,
+    AgGridAngular,
+    NgIf,
   ],
   template: `
-    <mat-dialog-content>
-      <mat-form-field style="width: 100%">
-        <mat-label>Name</mat-label>
-        <input matInput [value]="habit?.solution">
-      </mat-form-field>
-      <mat-form-field style="width: 100%">
-        <mat-label>Name</mat-label>
-        <input matInput [value]="habit?.solution">
-      </mat-form-field>
-      <mat-form-field style="width: 100%">
-        <mat-label>Name</mat-label>
-        <input matInput [value]="habit?.solution">
-      </mat-form-field>
-      <mat-form-field style="width: 100%">
-        <mat-label>Name</mat-label>
-        <input matInput [value]="habit?.solution">
-      </mat-form-field>
+    <form (ngSubmit)="onSubmit()" [formGroup]="postHabitForm">
+      <mat-dialog-content>
+        <div>
+          <h2>General</h2>
 
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button mat-dialog-close>Delete</button>
-      <button mat-button [mat-dialog-close]="true">Add</button>
-    </mat-dialog-actions>
+          <mat-form-field style="width: 100%">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option [value]="HabitType.Proactive">{{ HabitType.Proactive }}</mat-option>
+              <mat-option [value]="HabitType.Reactive">{{ HabitType.Reactive }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-
-    <!--<mat-card style="width: 400px">
-
-      <mat-form-field style="width: 100%">
-        <mat-label>Description</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-
-      <mat-form-field style="width: 100%">
-        <mat-label>Category</mat-label>
-        <mat-chip-grid #chipGrid aria-label="Category selection">
-          @for (category of categories(); track $index) {
-            <mat-chip-row (removed)="remove(category)">
-              {{ category }}
-              <button matChipRemove [attr.aria-label]="'remove ' + category">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
+          @if (type.value) {
+            @if ((type?.value === HabitType.Proactive)) {
+              <!-- Proactive Habit -->
+              <mat-form-field style="width: 100%">
+                <mat-label>{{ HabitLabel.Solution }}</mat-label>
+                <textarea matInput [formControlName]="HabitLabel.Solution.toLowerCase()"></textarea>
+              </mat-form-field>
+              <mat-form-field style="width: 100%">
+                <mat-label>{{ HabitLabel.Reason }}</mat-label>
+                <textarea matInput [formControlName]="HabitLabel.Reason.toLowerCase()"></textarea>
+              </mat-form-field>
+            } @else {
+              <!-- Reactive Habit -->
+              <mat-form-field style="width: 100%">
+                <mat-label>{{ HabitLabel.Trigger }}</mat-label>
+                <textarea matInput [formControlName]="HabitLabel.Trigger.toLowerCase()"></textarea>
+              </mat-form-field>
+              <mat-form-field style="width: 100%">
+                <mat-label>{{ HabitLabel.Reason }}</mat-label>
+                <textarea matInput [formControlName]="HabitLabel.Reason.toLowerCase()"></textarea>
+              </mat-form-field>
+              <mat-form-field style="width: 100%">
+                <mat-label>{{ HabitLabel.Solution }}</mat-label>
+                <textarea matInput [formControlName]="HabitLabel.Solution.toLowerCase()"></textarea>
+              </mat-form-field>
+            }
           }
-        </mat-chip-grid>
-        <input
-          name="currentCategory"
-          placeholder="New Category..."
-          #categoryInput
-          [(ngModel)]="currentCategory"
-          [matChipInputFor]="chipGrid"
-          [matAutocomplete]="auto"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)"
-        />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          @for (category of filteredCategory(); track category) {
-            <mat-option [value]="category">{{ category }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
+        </div>
+        <div *ngIf="habit?.occurrences">
+          <h2>Occurrences</h2>
+          <ag-grid-angular
+            [rowData]="this.habit?.occurrences"
+            [columnDefs]="colDefs"
+            class="ag-theme-balham"
+            [rowHeight]="25"
+            [headerHeight]="28"
+            style="height: 20vh"/>
+          <ag-grid-angular/>
+        </div>
+        <!-- TODO fix
 
-      <mat-form-field style="width: 100%">
-        <mat-label>Difficulty</mat-label>
-        <mat-select>
-          <mat-option value="one">Easy</mat-option>
-          <mat-option value="two">Moderate</mat-option>
-          <mat-option value="two">Difficult</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <p>{{ habit.occurrences?.length }} tracked occurrences until today:</p>
-      @for (occurrence of habit.occurrences; track occurrence) {
-        <span
-          [ngStyle]="{'background': occurrence.value === 1 ? '#71da86' : '#ff4d4d'}"
-          matTooltip="Occurrence on {{ occurrence.date | date:'dd MMM yyyy, HH:mm' }} with value {{ occurrence.value }}"
-          style="display: inline-block; width: 9px; height: 10px; border-radius: 2px; margin: 2px">
-          </span>
-      }
+              <mat-form-field style="width: 100%">
+                <mat-label>Category</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Category selection">
+                  @for (category of categories(); track $index) {
+                    <mat-chip-row (removed)="remove(category)">
+                      {{ category }}
+                      <button matChipRemove [attr.aria-label]="'remove ' + category">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                  }
+                </mat-chip-grid>
+                <input
+                  name="currentCategory"
+                  placeholder="New Category..."
+                  #categoryInput
+                  [(ngModel)]="currentCategory"
+                  [matChipInputFor]="chipGrid"
+                  [matAutocomplete]="auto"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="add($event)"
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  @for (category of filteredCategory(); track category) {
+                    <mat-option [value]="category">{{ category }}</mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
 
-    </mat-card-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button [mat-dialog-close]="true">Add</button>
-    </mat-dialog-actions>
-  </mat-card>-->
+              <mat-form-field style="width: 100%">
+                <mat-label>Difficulty</mat-label>
+                <mat-select>
+                  <mat-option value="one">Easy</mat-option>
+                  <mat-option value="two">Moderate</mat-option>
+                  <mat-option value="two">Difficult</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p>{{ habit.occurrences?.length }} tracked occurrences until today:</p>
+              @for (occurrence of habit.occurrences; track occurrence) {
+                <span
+                  [ngStyle]="{'background': occurrence.value === 1 ? '#71da86' : '#ff4d4d'}"
+                  matTooltip="Occurrence on {{ occurrence.date | date:'dd MMM yyyy, HH:mm' }} with value {{ occurrence.value }}"
+                  style="display: inline-block; width: 9px; height: 10px; border-radius: 2px; margin: 2px">
+                  </span>
+              }
+        -->
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true">Submit</button>
+      </mat-dialog-actions>
+    </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostHabitDialogComponent implements OnInit, OnDestroy {
-  readonly dialogRef = inject(MatDialogRef<PostHabitDialogComponent>);
+export class PostHabitDialogComponent {
+  data = inject(MAT_DIALOG_DATA);
+  habit: Habit | undefined = this.data;
+  // TODO delete later unused fields if not needed!
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   readonly currentCategory = model('');
   readonly categories = signal(['Lemon']);
@@ -145,46 +180,30 @@ export class PostHabitDialogComponent implements OnInit, OnDestroy {
       : this.allCategories.slice();
   });
   readonly announcer = inject(LiveAnnouncer);
-
-  @Input() userWithHabits: UserWithHabits | undefined;
-  @Output() pointsAddedByHabitCompletion = new EventEmitter<number>();
-  habitForm = new FormGroup({
-    newHabit: new FormControl('')
+  colDefs: ColDef[] | null | undefined = [DATE_COL, VALUE_COL]
+  protected readonly HabitLabel = HabitLabel;
+  protected readonly HabitType = HabitType;
+  protected postHabitForm = new FormGroup({
+    type: new FormControl(this.habit?.type ?? HabitType.Proactive, Validators.required),
+    trigger: new FormControl(this.habit?.trigger ?? ""),
+    reason: new FormControl(this.habit?.reason ?? "", Validators.required),
+    solution: new FormControl(this.habit?.solution ?? "", Validators.required),
   });
-  habit: any;
-  private readonly userWithHabitsSubject: BehaviorSubject<UserWithHabits> | undefined;
-  private userWithHabitsSubscription: Subscription | undefined;
 
-  constructor(private usersHabitsService: UsersHabitsService) {
-    if (this.userWithHabits) {
-      this.userWithHabitsSubject = new BehaviorSubject<UserWithHabits>(this.userWithHabits);
-
-    }
-  }
-
-  ngOnInit() {
-    if (this.userWithHabitsSubject) {
-      if (this.userWithHabits) {
-        this.userWithHabitsSubject.next(this.userWithHabits); // Initialize with the input data
-      }
-
-      // Subscribe to changes in userWithHabits
-      this.userWithHabitsSubscription = this.userWithHabitsSubject.subscribe(userWithHabits => {
-        if (userWithHabits) {
-          this.userWithHabits = userWithHabits;
-        }
-      });
-    }
+  get type(): any {
+    return this.postHabitForm.get('type');
   }
 
 
-  ngOnDestroy() {
-    this.userWithHabitsSubscription?.unsubscribe();
+  onSubmit() {
+    if (
+      this.postHabitForm.status === "VALID" &&
+      this.postHabitForm.value.reason && this.postHabitForm.value.solution
+    ) {
+    }
   }
 
   addHabit() {
-    const newHabitName = this.habitForm.value.newHabit;
-    if (newHabitName) {
     /* TODO rework logic
           const newHabit: any = {
             type: HabitType.Proactive,
@@ -196,46 +215,8 @@ export class PostHabitDialogComponent implements OnInit, OnDestroy {
             } else {
               this.userWithHabits = {...this.userWithHabits, habits: [newHabit]}
             }
-          }
-      */
-      this.updateUserWithHabits();
-    }
-    this.habitForm.reset();
-  }
-
-  markHabitAsCompleted(habit: Habit, event: MatCheckboxChange) {
-    if (event.checked && this.userWithHabits) {
-      const index = this.userWithHabits.habits.indexOf(habit);
-      if (index > -1) {
-        this.userWithHabits.habits.splice(index, 1);
-        this.updateUserWithHabits();
-        this.pointsAddedByHabitCompletion.emit(50)
-      }
-    }
-  }
-
-  editHabit(habit: Habit) {
-    habit.editing = true;
-    this.updateUserWithHabits();
-  }
-
-  saveHabit(habit: Habit) {
-    habit.editing = false;
-    this.updateUserWithHabits();
-  }
-
-  updateUserWithHabits() {
-    if (this.userWithHabitsSubject && this.userWithHabits) {
-      this.userWithHabitsSubject.next(this.userWithHabits); // Emit updated userWithHabits
-      this.usersHabitsService.updateUser(this.userWithHabits).subscribe({
-        next: (response: any) => {
-          console.log("User habits updated successfully", response);
-        },
-        error: (error: any) => {
-          console.error('Error updating user habits:', error);
-        }
-      });
-    }
+          } */
+    this.postHabitForm.reset();
   }
 
   add(event: MatChipInputEvent): void {

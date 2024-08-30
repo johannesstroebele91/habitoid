@@ -12,7 +12,7 @@ import {NgForOf, NgIf} from "@angular/common";
       <mat-chip *ngFor="let occurrence of occurrences">
         {{ occurrence }}
       </mat-chip>
-    </mat-chip-set>
+    </mat-chip-set>s
   `,
   imports: [
     MatChip,

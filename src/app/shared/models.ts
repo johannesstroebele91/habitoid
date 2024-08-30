@@ -37,10 +37,10 @@ export interface UserWithHabits {
 
 export interface Habit {
   type: HabitType,
+  trigger?: string;
   reason?: string;
   solution?: string;
   metric?: Metric;
-  trigger?: string;
   occurrences?: Occurrence[];
   // TODO check later if still needed
   active?: boolean;
@@ -50,6 +50,13 @@ export interface Habit {
 export enum HabitType {
   Proactive = "Proactive",
   Reactive = "Reactive"
+}
+
+export enum HabitLabel  {
+  Solution = "Solution",
+  Reason = "Reason",
+  Trigger = "Trigger",
+  Metric = "Metric"
 }
 
 export interface Metric {

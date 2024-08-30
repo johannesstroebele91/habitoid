@@ -1,8 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ICellRendererAngularComp} from "ag-grid-angular";
 import {ICellRendererParams} from "ag-grid-community";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
+import {Habit} from "../../shared/models";
+import {postHabit} from "../../shared/utils";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-actions-renderer',
@@ -26,8 +29,13 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 })
 export class ActionsRenderer implements ICellRendererAngularComp {
   actions: string[] = [];
+  public habit: Habit | undefined;
+  public params: any;
+  readonly dialog = inject(MatDialog);
 
   agInit(params: ICellRendererParams): void {
+    this.habit = params.value as Habit;
+    this.params = params;
     this.updateActions(params.value);
   }
 
@@ -36,12 +44,11 @@ export class ActionsRenderer implements ICellRendererAngularComp {
     return true;
   }
 
-  editHabit() {
-
+  editHabit(): void {
+    postHabit(this.dialog, this.params.data.habit);
   }
 
   deleteHabit() {
-
   }
 
   private updateActions(value: string[] | null | undefined): void {
