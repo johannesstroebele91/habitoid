@@ -45,7 +45,7 @@ export class ActionsRenderer implements ICellRendererAngularComp {
   }
 
   editHabit(): void {
-    postHabit(this.dialog, this.params.data.habit);
+    postHabit(this.dialog, this.params.data?.habit);
   }
 
   deleteHabit() {

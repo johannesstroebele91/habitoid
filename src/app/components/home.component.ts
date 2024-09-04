@@ -49,7 +49,9 @@ import {HabitsComponent} from "./habits/habits.component";
                           [color]="'accent'" style="width: 100%; margin: 0 20px 10px 20px;"></mat-progress-bar>
       </div>
       <div style="text-align: center; margin-bottom: 20px"><b>270 XP</b> left until level <b>7</b></div>
-      <app-habits [userWithHabits]="userWithHabits"></app-habits>
+      @if (userWithHabits) {
+        <app-habits [userWithHabits]="userWithHabits"></app-habits>
+      }
     </div>
   `,
 })
@@ -61,8 +63,23 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersHabitsService.getUser(this.route.snapshot.params['id']).subscribe({
-      next: (response: any) => {
-        this.userWithHabits = response;
+      next: (userWithHabitsOccurrenceDateAsString: any) => {
+        // Convert string date into real date objects
+        const habitsWithOccurrenceDateAsObj = userWithHabitsOccurrenceDateAsString.habits.map((habit: any) => {
+          return {
+            ...habit,
+            occurrences: habit.occurrences.map((occurrence: { value: string, date: string }) => {
+              return {
+                value: occurrence.value,
+                date: new Date(occurrence.date),
+              }
+            })
+          }
+        });
+        this.userWithHabits = {
+          ...userWithHabitsOccurrenceDateAsString,
+          habits: habitsWithOccurrenceDateAsObj
+        }
         console.log("Getting the user was successful");
       },
       error: (error: any) => {

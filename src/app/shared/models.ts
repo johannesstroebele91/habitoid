@@ -38,7 +38,7 @@ export interface UserWithHabits {
 export interface Habit {
   type: HabitType,
   trigger?: string;
-  reason?: string;
+  problem?: string;
   solution?: string;
   metric?: Metric;
   occurrences?: Occurrence[];
@@ -52,13 +52,6 @@ export enum HabitType {
   Reactive = "Reactive"
 }
 
-export enum HabitLabel  {
-  Solution = "Solution",
-  Reason = "Reason",
-  Trigger = "Trigger",
-  Metric = "Metric"
-}
-
 export interface Metric {
   amount: number,
   unit: string,
@@ -68,6 +61,13 @@ export interface Metric {
 export interface Occurrence {
   date: Date;
   value: number;
+}
+
+export enum HabitLabel {
+  Solution = "Solution",
+  Problem = "Problem",
+  Trigger = "Trigger",
+  Metric = "Metric"
 }
 
 

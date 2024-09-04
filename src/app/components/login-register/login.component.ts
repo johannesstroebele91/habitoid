@@ -21,8 +21,8 @@ import {AuthResponseData} from "../../shared/models";
       <mat-card-header style="display: block;">
         <mat-card-title style=" font-size: 36px">Welcome!</mat-card-title>
         <p style="margin: 30px auto 30px auto; line-height: 1.85"
-        >Why settle for ‘just okay’? Go full ‘Kanye Interrupts Taylor’ level of
-          habit mastery. Turn your hustle into high scores cause consistency deserves the kind of praise your cat
+        >Why settle for ‘okay’? Go full ‘Kanye Interrupts Taylor’
+          habit mastery. Turn your hustle into high scores, cause consistency deserves the praise your cat
           would give you… 'none'.
         </p>
       </mat-card-header>
