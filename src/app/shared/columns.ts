@@ -1,8 +1,9 @@
 import {HabitLabel} from "./models";
 import {ColDef} from "ag-grid-community";
 import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
-import {OccurrenceChipRenderer} from "../components/renderer/occurrence-renderer.component";
 import {MetricRenderer} from "../components/renderer/metric-renderer.component";
+import {DeleteRenderer} from "../components/renderer/delete-renderer.component";
+import {ProgressRenderer} from "../components/renderer/progress-renderer.component";
 
 const centerCell = {
   display: "flex",
@@ -20,10 +21,10 @@ export const ACTIONS_COL: (ColDef) =
     headerTooltip: "Rows are not draggable when sorted",
     pinned: 'left'
   };
-export const REASON_COL: (ColDef) = {
-  field: HabitLabel.Reason.toLowerCase(),
-  headerName: HabitLabel.Reason,
-  headerTooltip: "Why is it important to do?",
+export const PROBLEM_COL: (ColDef) = {
+  field: HabitLabel.Problem.toLowerCase(),
+  headerName: HabitLabel.Problem,
+  headerTooltip: "What problematic behavior should be fixed?",
   filter: 'agTextColumnFilter',
   width: 180
 };
@@ -35,107 +36,22 @@ export const SOLUTION_COL: (ColDef) = {
   width: 180,
   pinned: 'left'
 };
-export const PROACTIVE_METRIC_COL: ColDef = {
+export const METRIC_COL: ColDef = {
   field: HabitLabel.Metric.toLowerCase(),
-  headerName: HabitLabel.Metric,
-  headerTooltip: "Scheduled amount to reach in a certain time frame (e.g. walk 10000 steps each day)", // TODO fix
-  width: 60,
-  editable: true,
+  headerName: "Metric",
+  headerTooltip: 'How to measure the progress',
   cellRenderer: MetricRenderer,
   cellStyle: centerCell,
+  width: 60,
+  pinned: 'left'
 }
-
-// Reactive Habit
 export const TRIGGER_COL: (ColDef) = {
   field: HabitLabel.Trigger.toLowerCase(),
   headerName: HabitLabel.Trigger,
-  headerTooltip: "What triggers the bad habit? (e.g. When I hit a wall on a task, I go on YouTube)",
+  headerTooltip: "What triggers the habit? (e.g. When I hit a wall on a task, I go on YouTube)",
   filter: 'agTextColumnFilter',
   width: 240,
   pinned: 'left'
-};
-export const REACTIVE_METRIC_COL: ColDef = {
-  field: HabitLabel.Metric.toLowerCase(),
-  headerName: "Test",
-  headerTooltip: 'Positive or negative feedback based on a negative trigger (e.g. watching YouTube when you feel stressed)',
-  cellRenderer: MetricRenderer,
-  cellStyle: centerCell,
-  width: 60
-}
-
-
-// Progress
-export const PROGRESS_TODAY_COL: (ColDef) = {
-  field: "today",
-  headerName: "Today",
-  cellRenderer: (params: any) => {
-    return `<div class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper ag-indeterminate ag-disabled" style="position: relative; top: -1px"><input type='checkbox' ${params.value ? 'checked' : ''} class="ag-input-field-input ag-checkbox-input" disabled /></div>`;
-  },
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_1_DAY_AGO_COL: (ColDef) = {
-  field: "1-day-ago",
-  headerName: "1 day ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_2_DAYS_AGO_COL: (ColDef) = {
-  field: "2-days-ago",
-  headerName: "2 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_3_DAY_AGO_COL: (ColDef) = {
-  field: "3-days-ago",
-  headerName: "3 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_4_DAY_AGO_COL: (ColDef) = {
-  field: "4-days-ago",
-  headerName: "4 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_5_DAY_AGO_COL: (ColDef) = {
-  field: "5-days-ago",
-  headerName: "5 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_6_DAY_AGO_COL: (ColDef) = {
-  field: "6-days-ago",
-  headerName: "6 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const PROGRESS_7_DAY_AGO_COL: (ColDef) = {
-  field: "7-days-ago",
-  headerName: "7 days ago",
-  cellRenderer: 'agCheckboxCellRenderer',
-  cellEditor: 'agCheckboxCellEditor',
-  cellStyle: centerCell,
-  width: 60
-};
-export const OCCURRENCES_COL: (ColDef) = {
-  field: "occurrences",
-  headerName: "🗓️Last Occurrences",
-  width: 500,
-  cellRenderer: OccurrenceChipRenderer,
-  valueFormatter: () => "",
 };
 export const DATE_COL: ColDef = {
   field: 'date',
@@ -150,4 +66,96 @@ export const VALUE_COL: ColDef = {
   filter: 'agNumberColumnFilter',
   valueFormatter: params => params.value,
   editable: true,
+};
+export const DELETE_COL: (ColDef) =
+  {
+    field: "delete",
+    width: 95,
+    headerName: "Delete",
+    cellRenderer: DeleteRenderer,
+    headerTooltip: "Enables to delete a occurrence",
+  };
+
+const defaultProgressFields = {
+  cellRenderer: ProgressRenderer,
+  cellStyle: centerCell,
+  sortable: false,
+  width: 60
+}
+
+// Progress
+export const PROGRESS_TODAY_COL: (ColDef) = {
+  field: "today",
+  headerName: "Today",
+  ...defaultProgressFields
+};
+export const PROGRESS_1_DAY_AGO_COL: (ColDef) = {
+  field: "1-day-ago",
+  headerName: "1 day ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_2_DAYS_AGO_COL: (ColDef) = {
+  field: "2-days-ago",
+  headerName: "2 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_3_DAY_AGO_COL: (ColDef) = {
+  field: "3-days-ago",
+  headerName: "3 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_4_DAY_AGO_COL: (ColDef) = {
+  field: "4-days-ago",
+  headerName: "4 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_5_DAY_AGO_COL: (ColDef) = {
+  field: "5-days-ago",
+  headerName: "5 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_6_DAY_AGO_COL: (ColDef) = {
+  field: "6-days-ago",
+  headerName: "6 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_7_DAY_AGO_COL: (ColDef) = {
+  field: "7-days-ago",
+  headerName: "7 days ago",
+  ...defaultProgressFields
+};
+export const PROGRESS_WEEK_COL: (ColDef) = {
+  field: "week",
+  headerName: "Week",
+  ...defaultProgressFields
+};
+export const PROGRESS_MONTH_COL: (ColDef) = {
+  field: "month",
+  headerName: "Month",
+  ...defaultProgressFields
+};
+export const PROGRESS_FOURTH_QUARTER_COL: (ColDef) = {
+  field: "4-quarter",
+  headerName: "4. quarter",
+  ...defaultProgressFields
+};
+export const PROGRESS_THIRD_QUARTER_COL: (ColDef) = {
+  field: "3-quarter",
+  headerName: "3. quarter",
+  ...defaultProgressFields
+};
+export const PROGRESS_SECOND_QUARTER_COL: (ColDef) = {
+  field: "2-quarter",
+  headerName: "2. quarter",
+  ...defaultProgressFields
+};
+export const PROGRESS_FIRST_QUARTER_COL: (ColDef) = {
+  field: "1-quarter",
+  headerName: "1. quarter",
+  ...defaultProgressFields
+};
+export const PROGRESS_YEAR_COL: (ColDef) = {
+  field: "year",
+  headerName: "Year",
+  ...defaultProgressFields
 };
