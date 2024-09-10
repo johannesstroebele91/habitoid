@@ -3,14 +3,15 @@ import {ICellRendererAngularComp} from "ag-grid-angular";
 import {ICellRendererParams} from "ag-grid-community";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
-import {MatCheckbox} from "@angular/material/checkbox";
+import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
+import {Habit, HabitType} from "../../shared/models";
 
 @Component({
-  selector: 'app-metric-renderer',
+  selector: 'app-reactive-metric-renderer',
   standalone: true,
   template: `
     <div style="position: relative; top: 3px">
@@ -27,6 +28,7 @@ import {NgIf} from "@angular/common";
   imports: [
     MatIcon,
     MatButton,
+    MatCheckboxModule,
     MatIconButton,
     MatMiniFabButton,
     MatCheckbox,
@@ -38,27 +40,19 @@ import {NgIf} from "@angular/common";
     NgIf
   ],
 })
-export class MetricRenderer implements ICellRendererAngularComp {
-  actions: string[] = [];
-  checked: boolean = false;
-  value: any;
+export class ReactiveMetricRenderer implements ICellRendererAngularComp {
+  habit: Habit | undefined;
+  value = true;
+  protected readonly HabitType = HabitType;
 
   agInit(params: ICellRendererParams): void {
-    this.updateMetric(params.value);
+    this.habit = (params.data as Habit);
   }
 
-  refresh(params: ICellRendererParams): boolean {
-    this.updateMetric(params.value);
-    return true;
+  refresh(): boolean {
+    return false;
   }
 
   test() {
-  }
-
-  addValue() {
-  }
-
-  private updateMetric(value: string[] | null | undefined): void {
-    this.actions = value || [];
   }
 }

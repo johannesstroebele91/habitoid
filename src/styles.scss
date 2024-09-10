@@ -83,3 +83,7 @@ body {
 .linebreak {
   white-space: pre-line !important;
 }
+
+.mat-tooltip {
+  z-index: 10000 !important;
+}

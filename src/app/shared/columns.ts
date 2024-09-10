@@ -1,9 +1,10 @@
 import {HabitLabel} from "./models";
 import {ColDef} from "ag-grid-community";
 import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
-import {MetricRenderer} from "../components/renderer/metric-renderer.component";
+import {ReactiveMetricRenderer} from "../components/renderer/metric-renderer.component";
 import {DeleteRenderer} from "../components/renderer/delete-renderer.component";
 import {ProgressRenderer} from "../components/renderer/progress-renderer.component";
+import {calcPosNegSumRelOccurrences} from "./utils";
 
 const centerCell = {
   display: "flex",
@@ -36,14 +37,31 @@ export const SOLUTION_COL: (ColDef) = {
   width: 180,
   pinned: 'left'
 };
-export const METRIC_COL: ColDef = {
+export const REACTIVE_METRIC_COL: ColDef = {
   field: HabitLabel.Metric.toLowerCase(),
   headerName: "Metric",
   headerTooltip: 'How to measure the progress',
-  cellRenderer: MetricRenderer,
+  cellRenderer: ReactiveMetricRenderer,
   cellStyle: centerCell,
   width: 60,
-  pinned: 'left'
+}
+export const PROACTIVE_CHECKBOX_METRIC_COL: ColDef = {
+  field: HabitLabel.Metric.toLowerCase(),
+  headerName: "Metric",
+  headerTooltip: 'How to measure the progress',
+  cellRenderer: 'agCheckboxCellRenderer',
+  cellEditor: 'agCheckboxCellEditor',
+  cellStyle: centerCell,
+  width: 60,
+}
+export const PROACTIVE_NUMERIC_METRIC_COL: ColDef = {
+  field: HabitLabel.Metric.toLowerCase(),
+  headerName: "Metric",
+  headerTooltip: 'How to measure the progress',
+  cellEditor: "agNumberCellEditor",
+  editable: true,
+  cellRenderer: () => '<span style="color: grey;">Insert progress</span>',
+  width: 110,
 }
 export const TRIGGER_COL: (ColDef) = {
   field: HabitLabel.Trigger.toLowerCase(),
@@ -79,6 +97,24 @@ export const DELETE_COL: (ColDef) =
 const defaultProgressFields = {
   cellRenderer: ProgressRenderer,
   cellStyle: centerCell,
+  tooltipValueGetter: (params: any) => {
+    if (params.data.occurrences && params.colDef?.field) {
+      const {
+        negativeSumRelOccurrences, positiveSumRelOccurrences
+      } = calcPosNegSumRelOccurrences(params.data.occurrences, params.colDef.field);
+      if (negativeSumRelOccurrences < 0 && positiveSumRelOccurrences > 0) {
+        return `${negativeSumRelOccurrences} / ${positiveSumRelOccurrences}`
+      } else if (negativeSumRelOccurrences < 0) {
+        return negativeSumRelOccurrences
+      } else if (positiveSumRelOccurrences > 0) {
+        return positiveSumRelOccurrences
+      } else {
+        return 'none'
+      }
+    } else {
+      return 'none'
+    }
+  },
   sortable: false,
   width: 60
 }

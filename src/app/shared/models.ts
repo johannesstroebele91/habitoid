@@ -48,19 +48,25 @@ export interface Habit {
 }
 
 export enum HabitType {
-  Proactive = "Proactive",
+  ProactiveCheckbox = "ProactiveCheckbox",
+  ProactiveNumeric = "ProactiveNumeric",
   Reactive = "Reactive"
 }
 
 export interface Metric {
-  amount: number,
-  unit: string,
-  weekday: number
+  goal?: number,
+  frequency?: TimeUnit,
+  weekday?: Weekday[]
 }
 
 export interface Occurrence {
   date: Date;
   value: number;
+}
+
+export enum MetricType {
+  Checkbox = 'Checkbox',
+  Numeric = 'Numeric'
 }
 
 export enum HabitLabel {
@@ -71,7 +77,6 @@ export enum HabitLabel {
 }
 
 
-/* TODO delete later if not needed
 export enum TimeUnit {
   day = "day",
   week = "week",
@@ -79,7 +84,7 @@ export enum TimeUnit {
   year = "year"
 }
 
-enum Weekday {
+export enum Weekday {
   Monday = 'Monday',
   Tuesday = 'Tuesday',
   Wednesday = 'Wednesday',
@@ -87,5 +92,5 @@ enum Weekday {
   Friday = 'Friday',
   Saturday = 'Saturday',
   Sunday = 'Sunday'
-} */
+}
 

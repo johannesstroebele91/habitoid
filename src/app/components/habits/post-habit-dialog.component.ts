@@ -65,13 +65,13 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
         <mat-form-field style="width: 100%">
           <mat-label>Type</mat-label>
           <mat-select formControlName="type">
-            <mat-option [value]="HabitType.Proactive">{{ HabitType.Proactive }}</mat-option>
+            <mat-option [value]="HabitType.ProactiveCheckbox">{{ HabitType.ProactiveCheckbox }}</mat-option>
             <mat-option [value]="HabitType.Reactive">{{ HabitType.Reactive }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         @if (type.value) {
-          @if ((type?.value === HabitType.Proactive)) {
+          @if ((type?.value === HabitType.ProactiveCheckbox)) {
             <!-- Proactive Habit -->
             <mat-form-field style="width: 100%">
               <mat-label>{{ HabitLabel.Solution }}</mat-label>
@@ -215,7 +215,7 @@ export class PostHabitDialogComponent {
   protected readonly HabitLabel = HabitLabel;
   protected readonly HabitType = HabitType;
   protected postHabitForm = new FormGroup({
-    type: new FormControl(this.habit?.type ?? HabitType.Proactive, Validators.required),
+    type: new FormControl(this.habit?.type ?? HabitType.ProactiveCheckbox, Validators.required),
     trigger: new FormControl(this.habit?.trigger ?? ""),
     problem: new FormControl(this.habit?.problem ?? "", Validators.required),
     solution: new FormControl(this.habit?.solution ?? "", Validators.required),
