@@ -1,4 +1,4 @@
-import {HabitLabel} from "./models";
+import {Habit, HabitLabel, Occurrence} from "./models";
 import {ColDef} from "ag-grid-community";
 import {ActionsRenderer} from "../components/renderer/actions-renderer.component";
 import {ReactiveMetricRenderer} from "../components/renderer/metric-renderer.component";
@@ -37,13 +37,17 @@ export const SOLUTION_COL: (ColDef) = {
   width: 180,
   pinned: 'left'
 };
-export const REACTIVE_METRIC_COL: ColDef = {
-  field: HabitLabel.Metric.toLowerCase(),
-  headerName: "Metric",
-  headerTooltip: 'How to measure the progress',
-  cellRenderer: ReactiveMetricRenderer,
-  cellStyle: centerCell,
-  width: 60,
+export const TARGET_COL: (ColDef) = {
+  field: HabitLabel.Target.toLowerCase(),
+  headerName: HabitLabel.Target,
+  headerTooltip: "Which target should be reached",
+  filter: 'agTextColumnFilter',
+  valueGetter: (params: any) => {
+    const habit = params.data as Habit;
+    const target = habit.metric?.target
+    return `${target} ${habit.metric?.unit}${target === 1 ? '' : 's'}`;
+  },
+  width: 90,
 }
 export const PROACTIVE_CHECKBOX_METRIC_COL: ColDef = {
   field: HabitLabel.Metric.toLowerCase(),
@@ -52,6 +56,7 @@ export const PROACTIVE_CHECKBOX_METRIC_COL: ColDef = {
   cellRenderer: 'agCheckboxCellRenderer',
   cellEditor: 'agCheckboxCellEditor',
   cellStyle: centerCell,
+  valueFormatter: () => '', // TODO fix later, what to do with real value
   width: 60,
 }
 export const PROACTIVE_NUMERIC_METRIC_COL: ColDef = {
@@ -61,7 +66,17 @@ export const PROACTIVE_NUMERIC_METRIC_COL: ColDef = {
   cellEditor: "agNumberCellEditor",
   editable: true,
   cellRenderer: () => '<span style="color: grey;">Insert progress</span>',
+  valueParser: () => '', // TODO fix later, what to do with real value
   width: 110,
+}
+export const REACTIVE_METRIC_COL: ColDef = {
+  field: HabitLabel.Metric.toLowerCase(),
+  headerName: "Metric",
+  headerTooltip: 'How to measure the progress',
+  cellRenderer: ReactiveMetricRenderer,
+  cellStyle: centerCell,
+  valueFormatter: () => '', // TODO fix later, what to do with real value
+  width: 60,
 }
 export const TRIGGER_COL: (ColDef) = {
   field: HabitLabel.Trigger.toLowerCase(),
@@ -75,14 +90,20 @@ export const DATE_COL: ColDef = {
   field: 'date',
   headerName: 'Date',
   filter: 'agDateColumnFilter',
-  valueFormatter: params => params.value,
+  valueFormatter: (params: any) => {
+    const occurrence = params.data as Occurrence;
+    return occurrence.date.toDateString()
+  },
   editable: true,
 };
 export const VALUE_COL: ColDef = {
   field: 'value',
   headerName: 'Value',
   filter: 'agNumberColumnFilter',
-  valueFormatter: params => params.value,
+  valueFormatter: (params: any) => {
+    const occurrence = params.data as Occurrence;
+    return occurrence.value.toString()
+  },
   editable: true,
 };
 export const DELETE_COL: (ColDef) =

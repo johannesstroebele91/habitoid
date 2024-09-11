@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from "./auth.service";
-import {Habit, HabitType, TimeUnit, UserWithHabits, Weekday} from "../shared/models";
+import {Frequency, Habit, HabitType, UserWithHabits, Weekday} from "../shared/models";
 import {Observable} from "rxjs";
 
 interface ResponseData {
@@ -27,8 +27,9 @@ const HABITS_TEST_DATEN: Habit[] = [
     active: true,
     editing: false,
     metric: {
-      goal: 3,
-      frequency: TimeUnit.day,
+      target: 3,
+      unit: "time",
+      frequency: Frequency.day,
       weekday: [Weekday.Monday, Weekday.Tuesday, Weekday.Friday]
     },
     occurrences: [
@@ -50,6 +51,12 @@ const HABITS_TEST_DATEN: Habit[] = [
     type: HabitType.ProactiveCheckbox,
     active: true,
     editing: false,
+    metric: {
+      target: 1,
+      unit: "time",
+      frequency: Frequency.week,
+      weekday: [Weekday.Saturday]
+    },
     occurrences: [
       {date: generateDate(1), value: 1},
       {date: generateDate(2), value: 1},
@@ -64,6 +71,12 @@ const HABITS_TEST_DATEN: Habit[] = [
     type: HabitType.ProactiveCheckbox,
     active: false,
     editing: true,
+    metric: {
+      target: 1,
+      unit: "time",
+      frequency: Frequency.day,
+      weekday: [Weekday.Monday, Weekday.Tuesday, Weekday.Wednesday, Weekday.Thursday, Weekday.Friday, Weekday.Saturday],
+    },
     occurrences: [
       {date: generateDate(0), value: 1},  // today
       {date: generateDate(30), value: 1}, // 1 month ago
@@ -75,6 +88,12 @@ const HABITS_TEST_DATEN: Habit[] = [
     type: HabitType.ProactiveCheckbox,
     active: true,
     editing: false,
+    metric: {
+      target: 3,
+      unit: "time",
+      frequency: Frequency.day,
+      weekday: [Weekday.Monday, Weekday.Tuesday, Weekday.Wednesday, Weekday.Thursday, Weekday.Friday, Weekday.Saturday, Weekday.Sunday],
+    },
     occurrences: [
       {date: generateDate(1), value: 1},   // 3 days ago
       {date: generateDate(1), value: 1},   // 3 days ago
@@ -92,31 +111,43 @@ const HABITS_TEST_DATEN: Habit[] = [
     ],
   },
   {
-    solution: 'Walk 10,000 steps every day',
+    solution: 'Walk 8000 steps every day',
     problem: 'Want to lose weight',
     type: HabitType.ProactiveNumeric,
     active: true,
     editing: false,
+    metric: {
+      target: 8000,
+      unit: "step",
+      frequency: Frequency.day,
+      weekday: [Weekday.Monday, Weekday.Tuesday, Weekday.Wednesday, Weekday.Thursday, Weekday.Friday, Weekday.Saturday, Weekday.Sunday],
+    },
     occurrences: [
       {date: generateDate(0), value: 10000},   // today
       {date: generateDate(1), value: 8000},   // 1 day ago
       {date: generateDate(2), value: 11000},   // 2 days ago
       {date: generateDate(3), value: 8000},   // 3 days ago
-      {date: generateDate(3), value: 2000},   // 3 days ago
-      {date: generateDate(4), value: 1},   // 4 days ago
+      {date: generateDate(3), value: 5000},   // 3 days ago
+      {date: generateDate(4), value: 3000},   // 4 days ago
       {date: generateDate(5), value: 5000},   // 5 days ago
-      {date: generateDate(5), value: 1000},   // 5 days ago
+      {date: generateDate(5), value: 5000},   // 5 days ago
       {date: generateDate(5), value: 6000},   // 5 days ago
       {date: generateDate(6), value: 8000},   // 6 days ago
       {date: generateDate(365), value: 5000}, // 1 year ago
     ],
   },
   {
-    solution: 'Drink 3 liters of water each day',
+    solution: 'Drink 2,5 liters of water each day',
     problem: 'Staying hydrated improves overall health and energy',
     type: HabitType.ProactiveNumeric,
     active: true,
     editing: true,
+    metric: {
+      target: 2500,
+      unit: "liter",
+      frequency: Frequency.day,
+      weekday: [Weekday.Monday, Weekday.Tuesday, Weekday.Wednesday, Weekday.Thursday, Weekday.Friday, Weekday.Saturday, Weekday.Sunday],
+    },
     occurrences: [
       {date: generateDate(1), value: 250},   // 1 day ago
       {date: generateDate(1), value: 1500},   // 1 day ago

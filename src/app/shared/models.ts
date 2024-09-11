@@ -38,8 +38,8 @@ export interface UserWithHabits {
 export interface Habit {
   type: HabitType,
   trigger?: string;
-  problem?: string;
-  solution?: string;
+  problem: string;
+  solution: string;
   metric?: Metric;
   occurrences?: Occurrence[];
   // TODO check later if still needed
@@ -54,9 +54,10 @@ export enum HabitType {
 }
 
 export interface Metric {
-  goal?: number,
-  frequency?: TimeUnit,
-  weekday?: Weekday[]
+  target: number,
+  unit: string, // e.g. step(s), liter(s), time(s) ...
+  frequency: Frequency, // e.g. day, week, ...
+  weekday: Weekday[]
 }
 
 export interface Occurrence {
@@ -64,25 +65,21 @@ export interface Occurrence {
   value: number;
 }
 
-export enum MetricType {
-  Checkbox = 'Checkbox',
-  Numeric = 'Numeric'
-}
-
 export enum HabitLabel {
   Solution = "Solution",
   Problem = "Problem",
   Trigger = "Trigger",
-  Metric = "Metric"
+  Metric = "Metric",
+  Target = "Target"
 }
 
-
-export enum TimeUnit {
+export enum Frequency {
   day = "day",
   week = "week",
   month = "month",
   year = "year"
 }
+
 
 export enum Weekday {
   Monday = 'Monday',

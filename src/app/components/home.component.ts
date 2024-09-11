@@ -64,23 +64,26 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.usersHabitsService.getUser(this.route.snapshot.params['id']).subscribe({
       next: (userWithHabitsOccurrenceDateAsString: any) => {
-        // Convert string date into real date objects
-        const habitsWithOccurrenceDateAsObj = userWithHabitsOccurrenceDateAsString.habits.map((habit: any) => {
-          return {
-            ...habit,
-            occurrences: habit.occurrences.map((occurrence: { value: string, date: string }) => {
-              return {
-                value: occurrence.value,
-                date: new Date(occurrence.date),
-              }
-            })
+        if (!userWithHabitsOccurrenceDateAsString) {
+          console.log("User could does not exist", userWithHabitsOccurrenceDateAsString)
+        } else {
+          const habitsWithOccurrenceDateAsObj = userWithHabitsOccurrenceDateAsString.habits.map((habit: any) => {
+            return {
+              ...habit,
+              occurrences: habit.occurrences.map((occurrence: { value: string, date: string }) => {
+                return {
+                  value: occurrence.value,
+                  date: new Date(occurrence.date),
+                }
+              })
+            }
+          });
+          this.userWithHabits = {
+            ...userWithHabitsOccurrenceDateAsString,
+            habits: habitsWithOccurrenceDateAsObj
           }
-        });
-        this.userWithHabits = {
-          ...userWithHabitsOccurrenceDateAsString,
-          habits: habitsWithOccurrenceDateAsObj
+          console.log("Getting the user was successful");
         }
-        console.log("Getting the user was successful");
       },
       error: (error: any) => {
         console.error('Error on getting user:', error);

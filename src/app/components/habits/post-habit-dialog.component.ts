@@ -94,7 +94,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
             <mat-form-field style="width: 100%">
               <mat-label>{{ HabitLabel.Solution }}</mat-label>
               <input matInput [formControlName]="HabitLabel.Solution.toLowerCase()">
-            </mat-form-field>!!!
+            </mat-form-field>
           }
         }
         <!-- TODO fix
@@ -144,10 +144,10 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
               </span>
           }
        -->
-
       </form>
+
       <form (ngSubmit)="onSubmitOccurrence()" [formGroup]="addOccurrenceForm">
-        <div *ngIf="habit?.occurrences">
+        <div>
           <h2>Occurrences</h2>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px">
             <button
@@ -176,6 +176,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
           <ag-grid-angular
             class="ag-theme-balham"
             [gridOptions]="gridOptions"
+            [rowData]="rowData"
             style="height: 300px;"
           ></ag-grid-angular>
         </div>
